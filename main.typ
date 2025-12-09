@@ -35,8 +35,7 @@
 
 #pagebreak()
 
-= Contenidos
-#outline()
+#outline(title: "Contenidos")
 #pagebreak()
 
 // -----------------------------------------------------

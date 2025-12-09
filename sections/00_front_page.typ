@@ -20,7 +20,11 @@
 #v(1cm)
 
 #align(center)[
-  #text(size: 2em, weight: "bold")[AAA]
+  #text(size: 2em, weight: "bold")[
+    Diseño y Desarrollo de #linebreak()
+    Plataforma de Apreciación Artistica #linebreak()
+    para Personas con Discapacidad Visual
+  ]
 
   #v(2.5cm)
 
@@ -33,9 +37,14 @@
 
 #v(1cm)
 
-*Profesor Guía:* Patricio Olivares Roncagliolo
-#linebreak()
-*Profesor Correferente:* Nicolás Torres Rudloff
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 10pt,
+  [*Profesor Guía:*],
+  [Patricio Olivares Roncagliolo],
+  [*Profesor Correferente:*],
+  [Nicolás Torres Rudloff],
+)
 
 #v(1cm)
 

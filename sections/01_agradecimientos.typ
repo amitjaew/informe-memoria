@@ -1,3 +1,9 @@
-= Agradecimientos
+#align(right)[
+  = Agradecimientos
+  #v(.5cm)
+  A mi familia,
 
-gracias a la vida
+  mi perro Elvis
+
+  y el buen café.
+]

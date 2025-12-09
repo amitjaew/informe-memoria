@@ -1,6 +1,6 @@
 #align(right)[
-  = Agradecimientos
-  #v(.5cm)
+  #text(size: 16pt)[*Agradecimientos*]
+
   A mi familia,
 
   mi perro Elvis

@@ -24,10 +24,13 @@
 #include "sections/01_agradecimientos.typ"
 #include "sections/02_resumen.typ"
 
-= Lista de Figuras
+#pagebreak()
+// = Lista de Figuras
+#text(size: 16pt)[*Lista de Figuras*] #linebreak()
 *TO DO*
 
-= Lista de Tablas
+//= Lista de Tablas
+#text(size: 16pt)[*Lista de Tablas*] #linebreak()
 *TO DO*
 
 #pagebreak()

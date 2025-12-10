@@ -8,6 +8,28 @@ En este contexto, la inteligencia artificial emerge como una oportunidad para re
 #v(.5cm)
 La presente investigación se enmarca en los principios de accesibilidad universal y diseño inclusivo, procurando que la experiencia resultante no solo sea funcional, sino también significativa desde una perspectiva estética. La plataforma busca responder a la necesidad de ofrecer alternativas sensoriales que amplíen el acceso al patrimonio artístico y cultural, fortaleciendo la inclusión mediante herramientas tecnológicas avanzadas.
 
+
+#pagebreak()
+== Objetivo General
+#v(1cm)
+Mejorar la experiencia estética y promover la accesibilidad universal a las obras de arte para personas con discapacidad visual mediante el diseño e implementación de una plataforma accesible que utilice inteligencia artificial para transformar automáticamente imágenes de obras artísticas en paisajes sonoros narrativos, contextuales y ambientales.
+
+#v(.7cm)
+
+== Objetivos Particulares
+#v(.5cm)
+- *Proveer un catálogo curado de obras de dominio público*, basado en fuentes autoritativas y verificadas, que permita a los usuarios acceder a contenido confiable, culturalmente riguroso y legalmente seguro.
+
+- *Generar descripciones auditivas de alta calidad* utilizando modelos de lenguaje multimodales capaces de interpretar intuitivamente los elementos visuales presentes en cada obra, garantizando una representación objetiva y comprensible de su contenido.
+
+- *Crear narraciones históricas y biográficas* fundamentadas en fuentes reconocidas, con el fin de contextualizar la obra, su autor(a) y su relevancia artística dentro de un marco cultural accesible.
+
+- *Producir ambientes sonoros inmersivos* que recreen atmósferas coherentes con la escena o época sugerida por la obra, mediante modelos generativos capaces de transformar imágenes en audio evocativo y sensorialmente enriquecido.
+
+- *Diseñar una interfaz centrada en accesibilidad*, que permita la navegación autónoma de personas en situación de discapacidad visual, incorporando criterios y normativas vigentes en materia de accesibilidad universal y diseño inclusivo.
+
+#v(.7cm)
+== Estructura
 #v(.5cm)
 En las secciones siguientes se presentan los fundamentos teóricos, el análisis del estado del arte, la arquitectura desarrollada, los módulos que componen el sistema y las conclusiones derivadas de su implementación y evaluación preliminar.
 

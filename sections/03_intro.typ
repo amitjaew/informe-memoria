@@ -28,9 +28,16 @@ Mejorar la experiencia estética y promover la accesibilidad universal a las obr
 
 - *Diseñar una interfaz centrada en accesibilidad*, que permita la navegación autónoma de personas en situación de discapacidad visual, incorporando criterios y normativas vigentes en materia de accesibilidad universal y diseño inclusivo.
 
-#v(.7cm)
-== Estructura
 #v(.5cm)
-En las secciones siguientes se presentan los fundamentos teóricos, el análisis del estado del arte, la arquitectura desarrollada, los módulos que componen el sistema y las conclusiones derivadas de su implementación y evaluación preliminar.
+== Estructura
+#v(.2cm)
+
+El presente análisis incluye:
+#emph[
+  - *Revisión del estado del arte* sobre modelos generativos y estandares de accesibilidad.
+  - *Evaluación del marco teórico utilizado* para el desarrollo de la plataforma.
+  - *Descripción de la plataforma desarrollada* a nivel de componentes.
+  - *Revisión de resultados obtenidos y conclusiones al respecto*.
+]
 
 #pagebreak()

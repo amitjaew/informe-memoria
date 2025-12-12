@@ -25,13 +25,9 @@
 #include "sections/02_resumen.typ"
 
 #pagebreak()
-// = Lista de Figuras
-#text(size: 16pt)[*Lista de Figuras*] #linebreak()
-*TO DO*
-
-//= Lista de Tablas
-#text(size: 16pt)[*Lista de Tablas*] #linebreak()
-*TO DO*
+// Indice de imagenes (figuras) y tablas
+#outline(title: "Lista de Figuras", target: figure.where(kind: image))
+#outline(title: "Lista de Tablas", target: figure.where(kind:table))
 
 #pagebreak()
 

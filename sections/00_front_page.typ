@@ -12,10 +12,9 @@
 ]]
 #v(1cm)
 
-#figure(
-  image("../figs/Logo_UTFSM.png", width: 5.8cm),
-  caption: none
-)
+#align(center)[
+  #image("../figs/Logo_UTFSM.png", width: 5.8cm)
+]
 
 #v(1cm)
 

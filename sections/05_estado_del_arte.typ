@@ -39,13 +39,13 @@ No obstante los avances observados, subsisten desafíos técnicos comunes en las
 == Modelos Generativos de Ambiente Sonoro
 
 #v(.5cm)
-La generación de ambientes sonoros de alta calidad permanece en fase experimental, sin soluciones comerciales consolidadas. Modelos como CLAP mapean texto y audio en un espacio semántico compartido, pero no generan audio directamente. Entre las propuestas destacadas:
+La generación de ambientes sonoros de alta calidad sigue en fase experimental, sin soluciones comerciales consolidadas. Modelos como CLAP permiten mapear texto y audio en un espacio semántico compartido, aunque no generan audio directamente.
 
-- *I Hear Your True Colors*: La arquitectura propuesta en este paper combina el uso de un VQVAE, transformers y CLIP. El VQVAE extrae representaciones jerárquicas como secuencias discretas, los transformers las modelan de forma autorregresiva y CLIP alinea el audio con lo visual. Código abierto, sin versiones comerciales.
+#v(.5cm)
+Entre los modelos evaluados para la plataforma se encuentran:
+- *I Hear Your True Colors*: La arquitectura propuesta en este paper combina el uso de un VQVAE, transformers y CLIP. El VQVAE extrae representaciones jerárquicas como secuencias discretas, los transformers las modelan de forma autorregresiva y CLIP alinea el audio con lo visual. Aunque el código es abierto, no existen fuentes públicas de pesos preentrenados. Sin versiones comerciales.
 
-- *AudioLDM*: Utiliza difusión para generar espectrogramas condicionados por texto, con resultados prometedores en coherencia semántica. El modelo preentrenado se puede encontrar con pesos abiertos.
-
-- *MusicGen* (Meta): Genera música a partir de texto mediante transformers autorregresivos y tokenización EnCodec en múltiples _codebooks_, creando piezas coherentes en distintos estilos.
+- *AudioLDM*: Utiliza difusión para generar espectrogramas condicionados por texto, incorporando embeddings de CLAP para mejorar la alineación semántica entre descripciones textuales y contenido sonoro. Presenta resultados prometedores en coherencia semántica y diversidad acústica. El modelo preentrenado se puede encontrar con pesos abiertos.
 
 #figure(
   image("../figs/audioldm.png", height: 40%),

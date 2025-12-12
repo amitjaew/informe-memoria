@@ -41,7 +41,7 @@ No obstante los avances observados, subsisten desafíos técnicos comunes en las
 #v(.5cm)
 La generación de ambientes sonoros de alta calidad permanece en fase experimental, sin soluciones comerciales consolidadas. Modelos como CLAP mapean texto y audio en un espacio semántico compartido, pero no generan audio directamente. Entre las propuestas destacadas:
 
-- *I Hear Your True Colors*: Combina VQVAE, transformers y CLIP. El VQVAE extrae representaciones jerárquicas codificadas como secuencias discretas; los transformers las modelan de forma autorregresiva, mientras CLIP alinea semánticamente audio-visual. Código abierto, sin implementaciones comerciales.
+- *I Hear Your True Colors*: La arquitectura propuesta en este paper combina el uso de un VQVAE, transformers y CLIP. El VQVAE extrae representaciones jerárquicas como secuencias discretas, los transformers las modelan de forma autorregresiva y CLIP alinea el audio con lo visual. Código abierto, sin versiones comerciales.
 
 - *AudioLDM*: Utiliza difusión para generar espectrogramas condicionados por texto, con resultados prometedores en coherencia semántica. El modelo preentrenado se puede encontrar con pesos abiertos.
 

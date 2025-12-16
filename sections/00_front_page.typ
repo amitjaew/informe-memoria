@@ -19,10 +19,10 @@
 #v(1cm)
 
 #align(center)[
-  #text(size: 2em, weight: "bold")[
+  #text(size: 1.97em, weight: "bold")[
     Diseño y Desarrollo de #linebreak()
-    Plataforma de Apreciación Artistica #linebreak()
-    para Personas con Discapacidad Visual
+    Plataforma de Apreciación Artistica para#linebreak()
+    Personas con Discapacidad Visual
   ]
 
   #v(2.5cm)

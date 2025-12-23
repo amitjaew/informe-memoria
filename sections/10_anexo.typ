@@ -1,0 +1,589 @@
+#import "@preview/codly:1.3.0": *
+#import "@preview/codly-languages:0.1.1": *
+#show: codly-init.with()
+#show figure.where(kind: raw): set figure(supplement: [Código])
+#codly(languages: codly-languages)
+
+= Anexo
+
+#figure(
+  [
+  ```python
+  def test(x: str):
+      print(f"String is: {x}")
+  ```],
+  caption: "Some code"
+) <code-sample>
+
+
+Como se ve en @code-sample, podemos blablabla
+
+
+== Prompts
+=== Utilidades Generales
+
+#figure(
+  [
+  ```python
+  TRANSLATOR_PROMPT = \
+  """Traduce el siguiente texto al español de manera directa y clara.
+  Considera lo siguiente:
+  - Mantén el significado exacto del texto original.
+  - NO agregues explicaciones, comentarios o interpretaciones.
+  - NO seas redundante.
+  - Conserva el estilo y tono original del texto.
+  - Escribe solo la traducción, sin títulos ni subtítulos.
+
+  Texto original: {TEXT}
+  Traducción:"""
+
+  def translate(text):
+      completion = client.chat.completions.create(
+          #model="llama-3.1-8b-instant",
+          model="openai/gpt-oss-120b",
+          messages=[{
+              "role": "user",
+              "content": [{
+                  "type": "text",
+                  "text": PARSE_PROMPT(TRANSLATOR_PROMPT, TEXT=text)
+              }]
+          }],
+          temperature=0,
+          max_completion_tokens=1024,
+          top_p=1,
+          stream=False,
+          stop=None,
+      )
+      content = completion.choices[0].message.content
+      return content
+  ```],
+  caption: "Prompt de Traducción"
+) <prompt-traduccion>
+
+#figure(
+  [
+    ```python
+    SOURCE_EXTRACTOR_PROMPT = \
+    """Eres un extractor de información precisa y concisa.
+    Tu tarea es leer el texto de un artículo y devolver una lista de viñetas (•) con todos los hechos y datos relevantes,
+    escritos en español natural y claro.
+
+    Instrucciones:
+    1. Identifica los hechos principales, cifras, declaraciones, fechas, nombres y conclusiones clave del texto.
+    2. No incluyas opiniones, lenguaje publicitario o frases irrelevantes.
+    3. Si el texto está en inglés u otro idioma, traduce los puntos al español correctamente.
+    4. Usa frases breves pero completas, cada una iniciando con un punto (•).
+    5. Mantén el tono informativo y objetivo.
+
+    Texto del artículo: {TEXT}
+
+    Tu respuesta:"""
+
+    def extract_text_from_url(url: str) -> str:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0",
+        }
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        for tag in soup(['script', 'style']):
+            tag.decompose()
+
+        paragraphs = [p.get_text(strip=True) for p in soup.find_all('p')]
+        return '\n\n'.join(paragraphs)
+    ```
+  ],
+  caption: "Extractor de Información"
+)
+
+#figure(
+  [
+    ```python
+    def extract_url_context(url):
+        text = extract_text_from_url(url)[:8_000]
+
+        completion = client.chat.completions.create(
+            model="openai/gpt-oss-120b",
+            messages=[{
+                "role": "user",
+                "content": [{
+                    "type": "text",
+                    "text": PARSE_PROMPT(SOURCE_EXTRACTOR_PROMPT, TEXT=text)
+                }]
+            }],
+            temperature=0,
+            max_completion_tokens=2048,
+            top_p=1,
+            stream=False,
+            stop=None,
+        )
+        content = completion.choices[0].message.content
+        return content
+    ```
+  ]
+) <extractor-info>
+
+#figure(
+  [
+    ```python
+    TECHNIQUE_PROMPT = \
+    """Explícame en detalle una técnica de pintura o dibujo.
+    Considera lo siguiente:
+    - Debe estar en un formato adecuado para narración.
+    - Debe ser conciso y corto en duración.
+    - NO digas en resumen.
+    - NO seas redundante.
+    - NO utilices títulos ni subtitulos, solo escribe en parrafos narrados.
+
+    Técnica: {TECHNIQUE}
+    Explicación:"""
+
+    def get_technique(technique):
+        completion = client.chat.completions.create(
+            #model="llama-3.1-8b-instant",
+            model="llama-3.3-70b-versatile",
+            messages=[{
+                "role": "user",
+                "content": [{
+                    "type": "text",
+                    "text": PARSE_PROMPT(TECHNIQUE_PROMPT, TECHNIQUE=technique)
+                }]
+            }],
+            temperature=0,
+            max_completion_tokens=1024,
+            top_p=1,
+            stream=False,
+            stop=None,
+        )
+        content = completion.choices[0].message.content
+        return content
+    ```
+  ],
+  caption: "Generador de Texto de Técnica"
+) <technique-generator>
+
+#figure(
+  [
+    ```python
+    PERIOD_PROMPT = \
+    """Explícame en detalle un estilo pictórico en particular.
+    Considera lo siguiente:
+    - Debe estar en un formato adecuado para narración.
+    - Debe ser conciso y corto en duración.
+    - NO digas en resumen.
+    - NO seas redundante.
+    - NO utilices títulos ni subtitulos, solo escribe en parrafos narrados.
+
+    Estilo pictórico: {PERIOD}
+    Explicación:"""
+
+    def get_period(period):
+        completion = client.chat.completions.create(
+            #model="llama-3.1-8b-instant",
+            model="llama-3.3-70b-versatile",
+            messages=[{
+                "role": "user",
+                "content": [{
+                    "type": "text",
+                    "text": PARSE_PROMPT(PERIOD_PROMPT, PERIOD=period)
+                }]
+            }],
+            temperature=0,
+            max_completion_tokens=1024,
+            top_p=1,
+            stream=False,
+            stop=None,
+        )
+        content = completion.choices[0].message.content
+        return content
+    ```
+  ],
+  caption: "Generador de Texto de Periodo"
+) <period-text-generator>
+
+
+#figure(
+  [
+    ```python
+    AUTHOR_BIO_PROMPT = \
+    """Eres un experto en redacción biográfica y narrativa.
+    Tu tarea es leer el siguiente texto y redactar una biografía breve y fluida del autor o artista mencionado, adecuada para acompañar una ficha de obra de arte.
+
+    Instrucciones:
+    1. Resume los aspectos esenciales de la vida y obra del autor: formación, estilo, periodo histórico, aportes y relevancia artística.
+    2. Mantén un tono natural, informativo y narrativo, sin usar listas ni formato enciclopédico.
+    3. Evita redundancias, tecnicismos innecesarios y frases genéricas.
+    4. No incluyas fechas o datos no presentes en el texto fuente.
+    5. No menciones el proceso de redacción ni expresiones como “esta biografía trata sobre”.
+    6. Si el texto está en otro idioma, tradúcelo al español de manera natural.
+    7. Extensión máxima: dos párrafos.
+    8. Evita completamente el uso de caracteres especiales
+
+    Texto: {TEXT}
+
+    Tu respuesta:"""
+
+    def get_bio(url):
+        text = extract_url_context(url)
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{
+                "role": "user",
+                "content": [{
+                    "type": "text",
+                    "text": PARSE_PROMPT(AUTHOR_BIO_PROMPT, TEXT=text)
+                }]
+            }],
+            temperature=0,
+            max_completion_tokens=1024,
+            top_p=1,
+            stream=False,
+            stop=None,
+        )
+        content = completion.choices[0].message.content
+        return content
+    ```,
+  ],
+  caption: "Author Bio Generation"
+) <author-bio-generator>
+
+#figure(
+  [
+    ```python
+    def resize_if_oversized(image: Image.Image, max_dim: int = 1024) -> Image.Image:
+        width, height = image.size
+        if max(width, height) <= max_dim:
+            return image  # nothing to do
+
+        # scale preserving proportions
+        scale = max_dim / max(width, height)
+        new_size = (int(width * scale), int(height * scale))
+        return image.resize(new_size, Image.Resampling.LANCZOS)
+
+    def download_img(url, max_dim: int = 1024):
+        headers = { "User-Agent": "Chrome/51.0.2704.103 Safari/537.36" }
+        r = requests.get(url, headers=headers)
+        im = Image.open(BytesIO(r.content))
+        im = resize_if_oversized(im, max_dim)
+        return im
+
+    def image_to_base64(image: Image.Image, format="PNG") -> str:
+        """Convert PIL Image to base64 string."""
+        buffered = BytesIO()
+        image.save(buffered, format=format)
+        return base64.b64encode(buffered.getvalue()).decode("utf-8")
+    ```
+  ],
+  caption: "Image Parsing"
+) <image-parsing>
+
+=== Narrador de Contexto
+
+#figure(
+  [
+    ```python
+    SOURCE_SUMMARY_PROMPT = \
+    """Eres un experto en redacción narrativa.
+    Tu tarea es leer el siguiente texto y escribir un resumen breve (máximo dos párrafos) en un estilo natural, fluido y adecuado para narración oral o escrita.
+
+    Instrucciones:
+    1. Mantén un tono narrativo, como si estuvieras contando los hechos de manera clara y atractiva.
+    2. Sé conciso: evita repeticiones, rodeos o frases innecesarias.
+    3. No incluyas títulos, subtítulos ni listas.
+    4. No uses expresiones como “en resumen”, “este artículo trata sobre”, ni menciones al proceso de resumen.
+    5. Si el texto está en otro idioma, tradúcelo al español con naturalidad.
+    6. Enfócate en los hechos principales y el contexto historico de la producción de la obra.
+
+    Texto: {TEXT}
+
+    Tu respuesta:"""
+
+    def get_narration(url):
+        text = extract_url_context(url)
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{
+                "role": "user",
+                "content": [{
+                    "type": "text",
+                    "text": PARSE_PROMPT(SOURCE_SUMMARY_PROMPT, TEXT=text)
+                }]
+            }],
+            temperature=0,
+            max_completion_tokens=2048,
+            top_p=1,
+            stream=False,
+            stop=None,
+        )
+        content = completion.choices[0].message.content
+        return content
+    ```
+  ]
+)
+
+
+
+=== Generación de Audio Descriptivo
+
+#figure(
+  [
+    ```python
+    DESCRIPTION_PROMPT = \
+    """Describe los elementos retratados en la imagen.
+    Considera lo siguiente:
+    - Debe estar en un formato adecuado para narración.
+    - Debe ser conciso y corto en duración.
+    - NO digas en resumen.
+    - NO seas redundante.
+    - NO utilices títulos ni subtitulos, solo escribe en parrafos narrados.
+
+    Elementos retratados: """
+
+    def get_description(url):
+        image = download_img(url)
+        b64_image = image_to_base64(image)
+        completion = client.chat.completions.create(
+            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": DESCRIPTION_PROMPT
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/png;base64,{b64_image}"
+                            }
+                        }
+                    ]
+                }
+            ],
+            temperature=0,
+            max_completion_tokens=1024,
+            top_p=1,
+            stream=False,
+            stop=None,
+        )
+        return completion.choices[0].message.content
+    ```
+  ],
+  caption: "Generación de texto para audios dscriptivos"
+) <descriptive-audio-gen>
+
+
+=== Generación de Sonidos Ambientales
+
+#figure(
+  [
+    ```python
+    def get_quadrants(image: Image, N:int=3):
+        total_width, total_height = image.size
+        w, h = total_width//N, total_height//N
+        w_pos = [(w*i, w*(i+1)) for i in range(N)]
+        h_pos = [(h*i, h*(i+1)) for i in range(N)]
+        boxes = [
+            (w_pos[i][0], h_pos[j][0], w_pos[i][1], h_pos[j][1])
+            for j in range(N) for i in range(N)
+        ]
+        cropped = [
+            image.crop(box)
+            for box in boxes
+        ]
+        coords= [
+            (
+                (i/N + (i+1)/N)/2,
+                (j/N + (j+1)/N)/2,
+            )
+            for j in range(N) for i in range(N)
+        ]
+
+        return cropped, coords
+    ```
+  ],
+  caption: "Cropping de imagen en cuadrantes"
+) <image-quadrant-cropping>
+
+#figure(
+  [
+    ```python
+    EXTRACTOR_PROMPT = (
+    """Extract audio ambience generation prompts from the following image.
+
+    Consider the following:
+    - Your output should be a list of json objects containing the keys: {"is_background": bool, "object": string}
+    - Only indicate objects with sound ambience relevance, ignore muted elements
+    - Ignore abstract elements
+    - Indicate 3 elements at most
+    - Group elements when there are more than 1 depicted
+    - You should only output ONE list
+    - Alive elements should be added with their corresponding sound description (bear growling, dog barking)
+    - Any other non alive element should just be specified as the element itself
+    - Output just the required JSON results
+
+
+    JSON RESULT:""")
+
+    def get_semantic_elements(image: Image, max_attempts=3):
+        b64_image = image_to_base64(image)
+        for _ in range(max_attempts):
+            try:
+                completion = client.chat.completions.create(
+                    model="meta-llama/llama-4-scout-17b-16e-instruct",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "text",
+                                    "text": EXTRACTOR_PROMPT
+                                },
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/png;base64,{b64_image}"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    temperature=0,
+                    max_completion_tokens=1024,
+                    top_p=1,
+                    stream=False,
+                    stop=None,
+                )
+                content = completion.choices[0].message.content
+                description = json.loads(content)
+                print(description)
+                return description
+            except:
+                continue
+        return []
+    ```
+  ],
+  caption: "Detección de elementos en la obra"
+) <sound-ambient-element-dettection>
+
+
+
+=== Procesamiento de Catálogo de Obras
+
+== Text to Speech
+
+#figure(
+  [
+    ```python
+    # !pip install -q kokoro>=0.9.4 soundfile
+    # !apt-get -qq -y install espeak-ng > /dev/null 2>&1
+
+    from kokoro import KPipeline
+    from IPython.display import display, Audio
+    import soundfile as sf
+    import torch
+
+    tts_pipeline = KPipeline(lang_code='e')python
+    ```
+  ],
+  caption: "Setup Kokoro TTS"
+) <kokoro-tts-setup>
+
+#figure(
+  [
+    ```python
+    def tts(text, filename):
+        generator = tts_pipeline(
+            text,
+            voice='em_santa',
+            speed=1, split_pattern=r'\n+'
+        )
+
+        pause_duration = 0.5
+        silence = np.zeros(int(24000 * pause_duration), dtype=np.float32)
+        all_audio = []
+
+        for i, (gs, ps, audio) in enumerate(generator):
+            all_audio.append(audio)
+            all_audio.append(silence)
+
+        final_audio = np.concatenate(all_audio)
+        sf.write(f"{filename}.wav", final_audio, 24000)
+    ```
+  ],
+  caption: "Generacón de audio con Kokoro TTS"
+) <kokoro-tts-generation>
+
+== Modelos Generativos de Audio Ambiental
+
+=== AudioLDM
+
+#figure(
+  [
+    ```python
+    from IPython.display import Audio
+    from diffusers import AudioLDMPipeline
+    import torch
+
+    repo_id = "cvssp/audioldm"
+    pipe = AudioLDMPipeline.from_pretrained(repo_id, torch_dtype=torch.float16)
+    pipe = pipe.to("cuda")
+
+    generator = torch.Generator("cuda").manual_seed(0)
+    ```
+  ],
+  caption: "Audio LDM Setup"
+) <audioldm-setup>
+
+#figure(
+  [
+    ```python
+    from pydub import AudioSegment
+    import torch
+    import numpy as np
+    import tempfile
+    import os
+
+    def tensor_to_audiosegment(audio_tensor, sample_rate=16000):
+        samples = (audio_tensor * 32767).astype(np.int16)
+        return AudioSegment(
+            samples.tobytes(),
+            frame_rate=sample_rate,
+            sample_width=2,  # 16-bit = 2 bytes
+            channels=1
+        )
+
+    VOLUME_DB_BACKGROUND = -20
+    VOLUME_DB_FOREGROUND = -5
+    generator = torch.Generator("cuda").manual_seed(0)
+
+    def generate_ambient_sound(scene, filename):
+        final_mix = AudioSegment.silent(duration=20000)
+
+        for i, obj in enumerate(scene):
+            prompt = obj['object']
+            negative_prompt = ["low quality, average quality"]
+
+            result = pipe(
+                [prompt],
+                negative_prompt=negative_prompt,
+                num_inference_steps=30,
+                audio_length_in_s=20,
+                generator=generator,
+                return_dict=True
+            )
+
+            audio_tensor = result.audios[0].squeeze()
+            audio_segment = tensor_to_audiosegment(audio_tensor)
+            volume_db = VOLUME_DB_BACKGROUND if obj["is_background"] else VOLUME_DB_FOREGROUND
+            audio_segment = audio_segment + volume_db
+            final_mix = final_mix.overlay(audio_segment)
+
+        final_mix.export(f"{filename}.wav", format="wav")
+    ```
+  ],
+  caption: "Generación de mezcla de sonido ambiental con AudioLDM"
+)

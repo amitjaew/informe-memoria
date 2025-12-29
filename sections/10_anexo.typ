@@ -334,8 +334,8 @@ A continuación se definen utilidades de procesamiento de imágenes para el prep
         return base64.b64encode(buffered.getvalue()).decode("utf-8")
     ```
   ],
-  caption: "Image Parsing"
-) <image-parsing>
+  caption: "Utilidades de Procesamiento de Imágenes"
+) <image-parsing-utilities>
 
 == Narrador de Contexto
 #v(.3cm)
@@ -382,7 +382,8 @@ Para generar narraciones se usó el módulo de extracción de información (@inf
 
 == Generación de Audio Descriptivo
 #v(.5cm)
-#lorem(50)
+Se utilizan utilidades de procesamiento de imagenes definidas en @image-parsing-utilities.
+Para la generación del texto se emplea un *prompt* estructurado que guía al modelo en la creación de descripciones objetivas del contenido de la obra con cadencia de narración oral.
 
 #figure(
   [
@@ -422,9 +423,18 @@ Para generar narraciones se usó el módulo de extracción de información (@inf
   caption: "Generación de texto para audios dscriptivos"
 ) <descriptive-audio-gen>
 
+#pagebreak()
+== Generación de Sonidos Ambientales
+#v(.5cm)
+La euristica utilizada para la generación de sonidos ambientales consiste en 3 pasos:
 
-=== Generación de Sonidos Ambientales
+1. *Segmentación de la imagen* (@image-quadrant-cropping): La obra se divide en cuadrantes mediante un algoritmo de particionamiento espacial.
 
+2. *Extracción semántica de elementos* (@sound-ambient-element-extraction): Mediante Llama 4 Scout 17B se analizan los cuadrantes para detectar objetos, seres vivos y elementos con potencial sonoro. La salida en JSON incluye descripción, clasificación (fondo/primer plano) y ubicación relativa en la cuadrícula.
+
+3. *Síntesis de audio ambiental* (@sound-ambient-generation): Utilizando modelos generativos de audio basados en difusión (AudioLDM), se produce una composición sonora multicanal que integra los elementos detectados. Cada componente sonoro se ajusta en términos de volumen y posición espacial relativa según su ubicación en la cuadrícula original, creando una experiencia auditiva coherente con la distribución visual de la obra.
+
+#v(.5cm)
 #figure(
   [
     ```python
@@ -448,7 +458,7 @@ Para generar narraciones se usó el módulo de extracción de información (@inf
         return cropped, coords
     ```
   ],
-  caption: "Cropping de imagen en cuadrantes"
+  caption: "Segmentación de imagen en cuadrantes"
 ) <image-quadrant-cropping>
 
 #figure(
@@ -496,12 +506,58 @@ Para generar narraciones se usó el módulo de extracción de información (@inf
         return []
     ```
   ],
-  caption: "Detección de elementos en la obra"
-) <sound-ambient-element-dettection>
+  caption: "Extracción semántica de elementos en la obra"
+) <sound-ambient-element-extraction>
 
+#figure(
+  [
+    ```python
+    from diffusers import AudioLDMPipeline
+    from pydub import AudioSegment
+    import numpy as np
+    import tempfile
+    import os
+    import torch
+    VOLUME_DB_BACKGROUND = -20
+    VOLUME_DB_FOREGROUND = -5
 
+    pipe = AudioLDMPipeline.from_pretrained(
+        "cvssp/audioldm"
+        torch_dtype=torch.float16
+    ).to("cuda")
 
-=== Procesamiento de Catálogo de Obras
+    def tensor_to_audiosegment(audio_tensor, sample_rate=16000):
+        samples = (audio_tensor * 32767).astype(np.int16)
+        return AudioSegment(
+            samples.tobytes(),
+            frame_rate=sample_rate,
+            sample_width=2,  # 16-bit = 2 bytes
+            channels=1
+        )
+
+    def generate_ambient_sound(scene, filename):
+        final_mix = AudioSegment.silent(duration=20000)
+        for i, obj in enumerate(scene):
+            prompt = obj['object']
+            negative_prompt = ["low quality, average quality"]
+            result = pipe(
+                [prompt],
+                negative_prompt=negative_prompt,
+                num_inference_steps=30,
+                audio_length_in_s=20,
+                return_dict=True
+            )
+            audio_tensor = result.audios[0].squeeze()
+            audio_segment = tensor_to_audiosegment(audio_tensor)
+            volume_db = VOLUME_DB_BACKGROUND if obj["is_background"] else VOLUME_DB_FOREGROUND
+            audio_segment = audio_segment + volume_db
+            final_mix = final_mix.overlay(audio_segment)
+
+        final_mix.export(f"{filename}.wav", format="wav")
+    ```
+  ],
+  caption: "Generación de sonido ambiental con AudioLDM"
+) <sound-ambient-generation>
 
 == Text to Speech
 
@@ -546,74 +602,3 @@ Para generar narraciones se usó el módulo de extracción de información (@inf
   ],
   caption: "Generacón de audio con Kokoro TTS"
 ) <kokoro-tts-generation>
-
-== Modelos Generativos de Audio Ambiental
-
-=== AudioLDM
-
-#figure(
-  [
-    ```python
-    from IPython.display import Audio
-    from diffusers import AudioLDMPipeline
-    import torch
-
-    repo_id = "cvssp/audioldm"
-    pipe = AudioLDMPipeline.from_pretrained(repo_id, torch_dtype=torch.float16)
-    pipe = pipe.to("cuda")
-
-    generator = torch.Generator("cuda").manual_seed(0)
-    ```
-  ],
-  caption: "Audio LDM Setup"
-) <audioldm-setup>
-
-#figure(
-  [
-    ```python
-    from pydub import AudioSegment
-    import torch
-    import numpy as np
-    import tempfile
-    import os
-
-    def tensor_to_audiosegment(audio_tensor, sample_rate=16000):
-        samples = (audio_tensor * 32767).astype(np.int16)
-        return AudioSegment(
-            samples.tobytes(),
-            frame_rate=sample_rate,
-            sample_width=2,  # 16-bit = 2 bytes
-            channels=1
-        )
-
-    VOLUME_DB_BACKGROUND = -20
-    VOLUME_DB_FOREGROUND = -5
-    generator = torch.Generator("cuda").manual_seed(0)
-
-    def generate_ambient_sound(scene, filename):
-        final_mix = AudioSegment.silent(duration=20000)
-
-        for i, obj in enumerate(scene):
-            prompt = obj['object']
-            negative_prompt = ["low quality, average quality"]
-
-            result = pipe(
-                [prompt],
-                negative_prompt=negative_prompt,
-                num_inference_steps=30,
-                audio_length_in_s=20,
-                generator=generator,
-                return_dict=True
-            )
-
-            audio_tensor = result.audios[0].squeeze()
-            audio_segment = tensor_to_audiosegment(audio_tensor)
-            volume_db = VOLUME_DB_BACKGROUND if obj["is_background"] else VOLUME_DB_FOREGROUND
-            audio_segment = audio_segment + volume_db
-            final_mix = final_mix.overlay(audio_segment)
-
-        final_mix.export(f"{filename}.wav", format="wav")
-    ```
-  ],
-  caption: "Generación de mezcla de sonido ambiental con AudioLDM"
-)

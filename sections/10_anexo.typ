@@ -255,7 +255,7 @@ Como se ha detallado previamente, la generación de este contenido requiere úni
         return completion.choices[0].message.content
     ```
   ],
-  caption: "Generador de Texto de Periodo"
+  caption: "Generador de Texto de Período"
 ) <period-text-generator>
 
 #pagebreak()

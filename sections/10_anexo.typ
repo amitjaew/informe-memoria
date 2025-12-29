@@ -6,6 +6,7 @@
 
 = Anexo
 
+/*
 #figure(
   [
   ```python
@@ -17,10 +18,48 @@
 
 
 Como se ve en @code-sample, podemos blablabla
+*/
 
+== Utilidades Generales
+#v(.5cm)
 
-== Prompts
-=== Utilidades Generales
+En la prueba de concepto se emplearon modelos de lenguaje proporcionados por la plataforma _Groq_, accedidos mediante el cliente de Python de OpenAI. Este estándar es compatible con la mayoría de los proveedores de servicios de inferencia para modelos de lenguaje.
+
+#figure(
+  [
+    ```python
+    client = openai.OpenAI(
+        base_url = "https://api.groq.com/openai/v1",
+        api_key = user_secrets.get_secret("GROQ_API_KEY")
+    )
+    ```
+  ],
+  caption: "Inicialización de Cliente"
+) <client-initlialization>
+#v(.5cm)
+
+Adicionalmente a lo anterior, se implementó una abstracción genérica para el procesamiento de *prompts* que contienen argumentos delimitados por llaves. Esta solución permite definir parámetros mediante notación de llaves (por ejemplo, `{clave}`) para su posterior sustitución mediante argumentos nombrados al invocar la función (ejemplo: `PARSE_PROMPT(prompt, clave=valor)`).
+
+#figure(
+  [
+    ```python
+    def PARSE_PROMPT(BASE_PROMPT, **kwargs):
+        for key in kwargs:
+            BASE_PROMPT = BASE_PROMPT.replace(
+                '{' + str(key) + '}',
+                str(kwargs[key])
+            )
+        return BASE_PROMPT
+
+    ```
+  ],
+  caption: "Utilidad de Procesado de Prompts"
+) <prompt-parsing>
+
+#pagebreak()
+== Pipeline de Traducción
+#v(.5cm)
+La pipeline de traducción implementa un flujo automatizado para convertir textos de inglés a español. Utiliza las abstracciones definidas previamente para procesar un *prompt* estructurado que especifica reglas claras de traducción, como mantener el significado original, evitar redundancias y conservar el tono del texto fuente. La función `translate` integra este *prompt* con el texto de entrada mediante la utilidad de parsing de argumentos, enviando la solicitud al modelo y retornando la traducción generada de manera directa y sin modificaciones adicionales.
 
 #figure(
   [
@@ -39,7 +78,6 @@ Como se ve en @code-sample, podemos blablabla
 
   def translate(text):
       completion = client.chat.completions.create(
-          #model="llama-3.1-8b-instant",
           model="openai/gpt-oss-120b",
           messages=[{
               "role": "user",
@@ -57,35 +95,21 @@ Como se ve en @code-sample, podemos blablabla
       content = completion.choices[0].message.content
       return content
   ```],
-  caption: "Prompt de Traducción"
-) <prompt-traduccion>
+  caption: "Script de Traducción"
+) <traduction-script>
 
+== Pipeline de Extracción de Fuentes
+#v(.5cm)
+
+Para extraer información procesada de fuentes autoritativas se procedió con el desarrollo de utilidades para extraer datos desde una URL y procesarlo en forma de bulletpointpara presentar los resultados de manera estructurada y clara en forma de viñetass.
 #figure(
   [
     ```python
-    SOURCE_EXTRACTOR_PROMPT = \
-    """Eres un extractor de información precisa y concisa.
-    Tu tarea es leer el texto de un artículo y devolver una lista de viñetas (•) con todos los hechos y datos relevantes,
-    escritos en español natural y claro.
-
-    Instrucciones:
-    1. Identifica los hechos principales, cifras, declaraciones, fechas, nombres y conclusiones clave del texto.
-    2. No incluyas opiniones, lenguaje publicitario o frases irrelevantes.
-    3. Si el texto está en inglés u otro idioma, traduce los puntos al español correctamente.
-    4. Usa frases breves pero completas, cada una iniciando con un punto (•).
-    5. Mantén el tono informativo y objetivo.
-
-    Texto del artículo: {TEXT}
-
-    Tu respuesta:"""
-
     def extract_text_from_url(url: str) -> str:
         headers = {
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0",
         }
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-
+        response = requests.get(url, headers=headers).raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
         for tag in soup(['script', 'style']):
@@ -95,8 +119,27 @@ Como se ve en @code-sample, podemos blablabla
         return '\n\n'.join(paragraphs)
     ```
   ],
-  caption: "Extractor de Información"
-)
+  caption: "Scraper Extractor de Información"
+) <information-extraction-scraper>
+
+#figure(
+  [
+    ```python
+    SOURCE_EXTRACTOR_PROMPT = """Eres un extractor de información precisa y concisa. Tu tarea es leer el texto de un artículo y devolver una lista de viñetas (•) con todos los hechos y datos relevantes, escritos en español natural y claro.
+
+    Instrucciones:
+    1. Identifica los hechos principales, cifras, declaraciones, fechas, nombres y conclusiones clave del texto.
+    2. No incluyas opiniones, lenguaje publicitario o frases irrelevantes.
+    3. Si el texto está en inglés u otro idioma, traduce los puntos al español correctamente.
+    4. Usa frases breves pero completas, cada una iniciando con un punto (•).
+    5. Mantén el tono informativo y objetivo.
+
+    Texto del artículo: {TEXT}
+    Tu respuesta:"""
+    ```
+  ],
+  caption: "Prompt de Extracción de Información"
+) <information-extraction-prompt>
 
 #figure(
   [
@@ -122,8 +165,21 @@ Como se ve en @code-sample, podemos blablabla
         content = completion.choices[0].message.content
         return content
     ```
-  ]
-) <extractor-info>
+  ],
+  caption: "Script de Extracción de Información"
+) <information-extraction-script>
+
+#v(2cm)
+== Generación de Contenido General
+#v(.5cm)
+Para los metadatos generales de la plataforma, aunque no visibles en el *frontend* de la prueba de concepto, se pobló la base de datos con períodos, técnicas pictóricas y breves biografías de autores históricos. Estos metadatos, aunque no visibles en el *frontend* de la prueba de concepto, proporcionan información contextual esencial para la interpretación y categorización de las obras de arte que en una etapa posterior del proyecto podrían enriquecer la experiencia del usuario.
+
+Pasa la generación de estos se usaron dos enfoques distintos. Para técnicas pictóricas y períodos artísticos, se empleó generación directa con modelos de lenguaje por su estandarización. En cambio, para biografías de autores se extrajo información de Wikipedia para evitar imprecisiones en datos biográficos complejos, priorizando la calidad de la fuente.
+
+#pagebreak()
+
+Como se ha detallado previamente, la generación de este contenido requiere únicamente el nombre de la técnica o estilo pictórico a describir. Además, se han implementado consideraciones específicas en cuanto a la cadencia y el estilo del texto generado, con el objetivo de optimizar su procesamiento mediante modelos de síntesis de voz (TTS).
+#v(1cm)
 
 #figure(
   [
@@ -196,21 +252,22 @@ Como se ve en @code-sample, podemos blablabla
             stream=False,
             stop=None,
         )
-        content = completion.choices[0].message.content
-        return content
+        return completion.choices[0].message.content
     ```
   ],
   caption: "Generador de Texto de Periodo"
 ) <period-text-generator>
 
+#pagebreak()
 
+Se utilizó el script de extracción de información (@information-extraction-script) para procesar una breve biografía narrativa del autor, tomando datos de Wikipedia.
+#v(.5cm)
 #figure(
   [
     ```python
     AUTHOR_BIO_PROMPT = \
     """Eres un experto en redacción biográfica y narrativa.
     Tu tarea es leer el siguiente texto y redactar una biografía breve y fluida del autor o artista mencionado, adecuada para acompañar una ficha de obra de arte.
-
     Instrucciones:
     1. Resume los aspectos esenciales de la vida y obra del autor: formación, estilo, periodo histórico, aportes y relevancia artística.
     2. Mantén un tono natural, informativo y narrativo, sin usar listas ni formato enciclopédico.
@@ -222,7 +279,6 @@ Como se ve en @code-sample, podemos blablabla
     8. Evita completamente el uso de caracteres especiales
 
     Texto: {TEXT}
-
     Tu respuesta:"""
 
     def get_bio(url):
@@ -237,22 +293,24 @@ Como se ve en @code-sample, podemos blablabla
                 }]
             }],
             temperature=0,
-            max_completion_tokens=1024,
-            top_p=1,
-            stream=False,
-            stop=None,
         )
-        content = completion.choices[0].message.content
-        return content
+        return completion.choices[0].message.content
     ```,
   ],
   caption: "Author Bio Generation"
 ) <author-bio-generator>
 
+== Utilidades Generales de Procesamiento de Imágenes
+#v(.5cm)
+A continuación se definen utilidades de procesamiento de imágenes para el preprocesamiento básico antes de realizar llamadas a proveedores de servicios de inferencia o su uso en modelos autohospedados.
+- *`resize_if_oversized`* ajusta imágenes manteniendo proporciones, evitando que excedan un tamaño máximo para optimizar almacenamiento y rendimiento.
+- *`download_img`* descarga imágenes desde URLs usando un *user-agent* personalizado (para evitar bloqueos de conexión) y las redimensiona si superan el límite, garantizando su adaptación al sistema.
+- *`image_to_base64`* convierte imágenes PIL a base64, facilitando su transmisión y almacenamiento como texto plano para integración en APIs o bases de datos.
+
 #figure(
   [
     ```python
-    def resize_if_oversized(image: Image.Image, max_dim: int = 1024) -> Image.Image:
+    def resize_if_oversized(image, max_dim=1024):
         width, height = image.size
         if max(width, height) <= max_dim:
             return image  # nothing to do
@@ -279,7 +337,9 @@ Como se ve en @code-sample, podemos blablabla
   caption: "Image Parsing"
 ) <image-parsing>
 
-=== Narrador de Contexto
+== Narrador de Contexto
+#v(.3cm)
+Para generar narraciones se usó el módulo de extracción de información (@information-extraction-script) junto con un prompt que adapta el texto extraído a un formato adecuado para narración oral.
 
 #figure(
   [
@@ -297,7 +357,6 @@ Como se ve en @code-sample, podemos blablabla
     6. Enfócate en los hechos principales y el contexto historico de la producción de la obra.
 
     Texto: {TEXT}
-
     Tu respuesta:"""
 
     def get_narration(url):
@@ -312,20 +371,18 @@ Como se ve en @code-sample, podemos blablabla
                 }]
             }],
             temperature=0,
-            max_completion_tokens=2048,
-            top_p=1,
-            stream=False,
-            stop=None,
         )
-        content = completion.choices[0].message.content
-        return content
+        return completion.choices[0].message.content
     ```
-  ]
-)
+  ],
+  caption: "Generación de texto para narraciones"
+) <context-narration-script>
 
 
 
-=== Generación de Audio Descriptivo
+== Generación de Audio Descriptivo
+#v(.5cm)
+#lorem(50)
 
 #figure(
   [
@@ -346,28 +403,18 @@ Como se ve en @code-sample, podemos blablabla
         b64_image = image_to_base64(image)
         completion = client.chat.completions.create(
             model="meta-llama/llama-4-scout-17b-16e-instruct",
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": DESCRIPTION_PROMPT
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/png;base64,{b64_image}"
-                            }
-                        }
-                    ]
-                }
-            ],
+            messages=[{
+                "role": "user",
+                "content": [
+                    { "type": "text",
+                      "text": DESCRIPTION_PROMPT },
+                    { "type": "image_url",
+                      "image_url": {
+                        "url": f"data:image/png;base64,{b64_image}"
+                      } }
+                ]
+            }],
             temperature=0,
-            max_completion_tokens=1024,
-            top_p=1,
-            stream=False,
-            stop=None,
         )
         return completion.choices[0].message.content
     ```
@@ -390,16 +437,12 @@ Como se ve en @code-sample, podemos blablabla
             (w_pos[i][0], h_pos[j][0], w_pos[i][1], h_pos[j][1])
             for j in range(N) for i in range(N)
         ]
-        cropped = [
-            image.crop(box)
-            for box in boxes
-        ]
+        cropped = [ image.crop(box)
+                    for box in boxes ]
         coords= [
-            (
-                (i/N + (i+1)/N)/2,
-                (j/N + (j+1)/N)/2,
-            )
-            for j in range(N) for i in range(N)
+          ( (i/N + (i+1)/N)/2,
+            (j/N + (j+1)/N)/2 )
+          for j in range(N) for i in range(N)
         ]
 
         return cropped, coords
@@ -411,22 +454,22 @@ Como se ve en @code-sample, podemos blablabla
 #figure(
   [
     ```python
-    EXTRACTOR_PROMPT = (
-    """Extract audio ambience generation prompts from the following image.
+    EXTRACTOR_PROMPT = \
+    """Extract audio ambience generation keys from the following image.
 
     Consider the following:
-    - Your output should be a list of json objects containing the keys: {"is_background": bool, "object": string}
-    - Only indicate objects with sound ambience relevance, ignore muted elements
+    - Your output should be a list of json objects containing the keys:
+        {"is_background": bool, "object": string}
+    - Only indicate objects with sound ambience relevance.
     - Ignore abstract elements
     - Indicate 3 elements at most
     - Group elements when there are more than 1 depicted
     - You should only output ONE list
     - Alive elements should be added with their corresponding sound description (bear growling, dog barking)
-    - Any other non alive element should just be specified as the element itself
+    - Non alive elements should be specified as the element itself
     - Output just the required JSON results
 
-
-    JSON RESULT:""")
+    JSON RESULT:"""
 
     def get_semantic_elements(image: Image, max_attempts=3):
         b64_image = image_to_base64(image)
@@ -434,33 +477,20 @@ Como se ve en @code-sample, podemos blablabla
             try:
                 completion = client.chat.completions.create(
                     model="meta-llama/llama-4-scout-17b-16e-instruct",
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "text",
-                                    "text": EXTRACTOR_PROMPT
-                                },
-                                {
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/png;base64,{b64_image}"
-                                    }
-                                }
-                            ]
-                        }
-                    ],
+                    messages=[{
+                    "role": "user",
+                    "content": [
+                    { "type": "text",
+                        "text": EXTRACTOR_PROMPT },
+                    { "type": "image_url",
+                        "image_url": {
+                        "url": f"data:image/png;base64,{b64_image}" } }
+                    ]
+                    }],
                     temperature=0,
-                    max_completion_tokens=1024,
-                    top_p=1,
-                    stream=False,
-                    stop=None,
                 )
                 content = completion.choices[0].message.content
-                description = json.loads(content)
-                print(description)
-                return description
+                return json.loads(content)
             except:
                 continue
         return []

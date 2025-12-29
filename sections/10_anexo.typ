@@ -606,5 +606,5 @@ Nuestro módulo de generación de TTS considera detalles como el añadido de sil
         sf.write(f"{filename}.wav", final_audio, 24000)
     ```
   ],
-  caption: "Generacón de audio con Kokoro TTS"
+  caption: "Generación de audio con Kokoro TTS"
 ) <kokoro-tts-generation>

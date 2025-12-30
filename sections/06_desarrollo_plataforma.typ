@@ -18,26 +18,43 @@ Este módulo se encarga de producir descripciones textuales detalladas y estruct
 
 
 #v(.5cm)
-=== Narrador de Contexto
+=== Generador de Narraciones de Contexto
 #v(.2cm)
 
 Este módulo genera narraciones auditivas que contextualizan históricamente cada obra. Para ello, se recopila información de fuentes autoritativas (en este caso, se procesó manualmente un conjunto de datos con artículos de Wikipedia vinculados a cada pieza) (@information-extraction-script). A partir de estos datos, se elabora un relato contextualizado y adaptado al caso de uso (@context-narration-script), que posteriormente se convierte en audio mediante modelos de síntesis de voz (Text to Speech) (@kokoro-tts-generation), asegurando una experiencia auditiva coherente y accesible.
 
-#v(.5cm)
+#pagebreak()
 === Generador de Sonidos Ambientales
 #v(.2cm)
 
 Este módulo se encarga de la generación de ambientes sonoros que representan los contenidos literales (no abstractos) de sus imagenes de entrada. La heuristica utilizada consiste en:
-- Dividir el espacio en cuadrantes, en nuestro caso 9 (@image-quadrant-cropping).
+- Dividir el espacio en cuadrantes, en nuestro caso 9 (@image-quadrant-cropping), como se puede apreciar en @image-quadrant-segmentation-fig.
 - Procesar cada cuadrante con LLMs multimodales, obteniendo salidas estructuradas en JSON (@sound-ambient-element-extraction) representando cada elemento detectado.
 - Por cada cuadrante generar una mezcla de sonido integrando todos los elementos detectados en cada respectiva sección. (@sound-ambient-generation)
 
 #v(.5cm)
+#figure(
+  image("../figs/cropped_image_demo.png", height: 50%),
+  caption: [
+    Ejemplo de segmentación de imagen en cuadrantes
+    #linebreak()
+    Obra: El Macho Cabrío, Francisco de Goya
+  ]
+) <image-quadrant-segmentation-fig>
+
+#pagebreak()
 === Catálogo de Obras/Imagenes
-#v(.2cm)
+#v(.5cm)
 Se elaboró un conjunto de datos en formato JSON que incluye 30 obras artísticas, conteniendo todo el material requerido para el funcionamiento de los sistemas previamente descritos. Este dataset incorpora, además, enlaces a los artículos correspondientes de Wikipedia asociados a cada obra artística. *(ANEXO)*
 
-#v(.5cm)
+Una vez procesado el conjunto de datos, sus campos son expuestos a través de la *API* mediante endpoints específicos. Los datos textuales se almacenan en una base de datos SQLite, mientras que las imágenes y archivos de audio generados se guardan en el sistema de archivos local del backend.
+
+#figure(
+  image("../figs/datamodel.png"),
+  caption: "Modelo de Datos de la Plataforma"
+)
+
+#pagebreak()
 == Frontend
 #v(.2cm)
 El frontend se implementó utilizando NextJS para proporcionar acceso al contenido gestionado por la API Gateway. En su diseño, se incorporaron textos alternativos y etiquetas HTML semánticas con el objetivo de garantizar una integración completa con herramientas de asistencia para usuarios con discapacidad visual. Asimismo, se desarrolló una interfaz de usuario que facilita la navegación mediante atajos de teclado, optimizando la accesibilidad y usabilidad del sistema.

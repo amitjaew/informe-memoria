@@ -67,7 +67,13 @@ El frontend se implementó utilizando NextJS para proporcionar acceso al conteni
 #v(.5cm)
 == Limitaciones
 #v(.2cm)
+Por limitaciones computacionales durante el desarrollo, los módulos no se integraron directamente en la API Gateway. En su lugar, se implementó un prototipo funcional en un cuadernillo Jupyter para validar el diseño y flujo de procesamiento. Esto permitió generar y preprocesar los conjuntos de datos necesarios, que fueron incorporados a la base de datos para su uso en la versión final.
 
-Por limitaciones computacionales durante el desarrollo, los módulos no se integraron directamente en la API Gateway. En su lugar, se implementó un prototipo funcional en un #link("https://www.kaggle.com/code/alexeymitjaew/sound-generation-pipeline", "cuadernillo Jupyter (https://www.kaggle.com/code/alexeymitjaew/sound-generation-pipeline)") para validar el diseño y flujo de procesamiento. Esto permitió generar y preprocesar los conjuntos de datos necesarios, que fueron incorporados a la base de datos para su uso en la versión final.
+#align(
+  center,
+  [
+  *Cuadernillo:* #link("https://www.kaggle.com/code/alexeymitjaew/sound-generation-pipeline")
+  ]
+)
 
 #pagebreak()

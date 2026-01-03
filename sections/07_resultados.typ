@@ -65,8 +65,7 @@ A continuación, se evalúan los siguientes aspectos de los módulos implementad
 #pagebreak()
 === Generación de Texto de Audio Descriptivo
 #v(.4cm)
-Se aprecia una alta correspondencia entre las imagenes de entrada y las descripciones generadas, manteniendo una cadencia natural para el posterior procesamiento con modelos de texto a voz.
-Esto sugiere que una estrategia de _prompting_ directo es suficiente para que un _modelo de lenguaje multimodal_ describa efectivamente los contenidos de una obra, sin necesitar referencias autoritativas sobre esta (e.g. Wikipedia).
+Los resultados obtenidos demuestran una notable correspondencia entre las imágenes de entrada y las descripciones generadas, las cuales mantienen una estructura sintáctica y una cadencia adecuadas para su posterior procesamiento mediante modelos de _Text to Speech_. Este hallazgo sugiere que una estrategia basada en _prompting directo_ resulta suficiente para que un modelo de lenguaje multimodal genere descripciones precisas del contenido visual de una obra, sin requerir fuentes autoritativas externas (como artículos de Wikipedia) de referencia para complementar el análisis.
 
 #v(.4cm)
 *El Aquellare:*
@@ -113,10 +112,73 @@ El pipeline cumple sus objetivos al generar narraciones contextuales fluidas y c
 
 #pagebreak()
 === Generador de Sonidos Ambientales
+#v(.4cm)
+
+El proceso de detección de elementos acústicos en la obra presenta un desempeño adecuado, aunque se observan ocasionales alucinaciones menores en la identificación de componentes específicos. No obstante, los elementos detectados mantienen coherencia temática con la obra analizada, resultado atribuible al mapeo en el espacio latente implementado en la pipeline visual de Llamav4 Maverick.
+#figure(
+  [
+    #table(
+      columns: (100pt, auto),
+      align: center + horizon,
+      rows: (auto, 5cm),
+
+      [*Segmento*], [*Sonidos Generados*],
+      /*
+      [
+        #image("../figs/el_aquelarre_tile_0_0.jpg")
+      ],
+      [
+        #table(
+          columns: (auto, 80%),
+          align: left,
+          [*Fondo*], [night sky],
+          [*Objeto*], [birds flying],
+          [*Fondo*], [stars, wind],
+          [*Objeto*], [birds flying]
+        )
+      ],
+      */
+      [
+        #image("../figs/el_aquelarre_tile_1_1.jpg")
+      ],
+      [
+        #table(
+          columns: (auto, 80%),
+          align: left,
+          [*Objeto*], [goat bleating],
+          [*Fondo*], [tree branch creaking, people whispering],
+          [*Link*], [POR HACER]
+        )
+      ],
+      [
+        #image("../figs/el_aquelarre_tile_2_0.jpg")
+      ],
+      [
+        #table(
+          columns: (auto, 80%),
+          align: left,
+          [*Fondo*], [sand],
+          [*Objeto*], [puppy sleeping],
+          [*Link*], [POR HACER]
+        )
+      ],
+    )
+  ],
+  caption: [
+    Muestra de Elementos Detectados en Obra "El Aquelarre"
+  ]
+)
+#v(.4cm)
+
+Respecto a la calidad del audio generado se puede decir que aunque la mayoría de los cuadrantes producen resultados verosímiles y coherentes con las escenas representadas, se observa un grado variable de ruido y artefactos en las mezclas de sonido y se identifican _outliers_ donde los ambientes degeneran en ruido. Este comportamiento sugiere limitaciones en la generalización del modelo ante elementos visuales ambiguos y/o composiciones atípicas dentro de las obras.
 
 #pagebreak()
-
 === Audio Generado con TTS
+#v(.4cm)
+La implementación del módulo de Text-to-Speech (TTS) empleando Kokoro TTS demostró un nivel de naturalidad adecuado para la generación de audio en español, con una entonación fluida y una pronunciación generalmente clara de los textos descriptivos y narrativos. El tono neutral adoptado por el modelo resulta apropiado para una aplicación de accesibilidad cultural, ya que evita sesgos emocionales que podrían interferir con la percepción objetiva del contenido.
+
+No obstante, se identificaron dificultades específicas en la pronunciación de anglicismos y siglas. Términos y nombres propios de otros idiomas son interpretados con reglas fonéticas del español, generando resultados poco intuitivos para el oyente. Esta limitación sugiere la necesidad de implementar un preprocesamiento que genere descripciones alternativas para dicho contenido (lo que fué implementado parcialmente en las estrategias de prompting de la generación de narraciones de contexto, ver @context-narration-script) o, alternativamente, incorporar un diccionario de excepciones para preservar la inteligibilidad en contextos técnicos.
+
 *añadir link a wav*
 
 #pagebreak()

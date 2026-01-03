@@ -38,7 +38,7 @@ En la prueba de concepto se emplearon modelos de lenguaje proporcionados por la 
 ) <client-initlialization>
 #v(.5cm)
 
-Adicionalmente a lo anterior, se implementó una abstracción genérica para el procesamiento de *prompts* que contienen argumentos delimitados por llaves. Esta solución permite definir parámetros mediante notación de llaves (por ejemplo, `{clave}`) para su posterior sustitución mediante argumentos nombrados al invocar la función (ejemplo: `PARSE_PROMPT(prompt, clave=valor)`).
+Adicionalmente a lo anterior, se implementó una abstracción genérica para el procesamiento de *prompts*. Esta función permite definir parámetros mediante notación de llaves (por ejemplo, `{clave}`) para su posterior sustitución mediante argumentos nombrados al invocar la función (ejemplo: `PARSE_PROMPT(prompt, clave=valor)`).
 
 #figure(
   [

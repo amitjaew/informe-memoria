@@ -56,6 +56,7 @@ Adicionalmente a lo anterior, se implementó una abstracción genérica para el 
   caption: "Utilidad de Procesado de Prompts"
 ) <prompt-parsing>
 
+/*
 #pagebreak()
 == Pipeline de Traducción
 #v(.5cm)
@@ -97,7 +98,9 @@ La pipeline de traducción implementa un flujo automatizado para convertir texto
   ```],
   caption: "Script de Traducción"
 ) <traduction-script>
+*/
 
+#pagebreak()
 == Pipeline de Extracción de Fuentes
 #v(.5cm)
 

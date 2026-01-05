@@ -23,7 +23,7 @@ Como se ve en @code-sample, podemos blablabla
 == Utilidades Generales
 #v(.5cm)
 
-En la prueba de concepto se emplearon modelos de lenguaje proporcionados por la plataforma _Groq_, accedidos mediante el cliente de Python de OpenAI. Este estándar es compatible con la mayoría de los proveedores de servicios de inferencia para modelos de lenguaje.
+En nuestra prueba de concepto se emplearon modelos de lenguaje proporcionados por la plataforma _Groq_, accedidos mediante el cliente de Python de OpenAI. Este estándar es compatible con la mayoría de los proveedores de servicios de inferencia para modelos de lenguaje.
 
 #figure(
   [
@@ -104,7 +104,7 @@ La pipeline de traducción implementa un flujo automatizado para convertir texto
 == Pipeline de Extracción de Fuentes
 #v(.5cm)
 
-Para extraer información procesada de fuentes autoritativas se procedió con el desarrollo de utilidades para extraer datos desde una URL y procesarlo en forma de bulletpoint para presentar los resultados de manera estructurada y clara en forma de viñetass.
+Para extraer información procesada de fuentes autoritativas se procedió con el desarrollo de utilidades para extraer datos desde una URL (@information-extraction-scraper) y procesarlos en forma de _bullet points_ para presentar los resultados de manera estructurada y clara (@information-extraction-script).
 #figure(
   [
     ```python
@@ -175,7 +175,7 @@ Para extraer información procesada de fuentes autoritativas se procedió con el
 #v(2cm)
 == Generación de Contenido General
 #v(.5cm)
-Para los metadatos generales de la plataforma, aunque no visibles en el *frontend* de la prueba de concepto, se pobló la base de datos con períodos, técnicas pictóricas y breves biografías de los autores. Estos metadatos, aunque no visibles en el *frontend* de la prueba de concepto, proporcionan información contextual esencial para la interpretación y categorización de las obras de arte que en una etapa posterior del proyecto podrían enriquecer la experiencia del usuario.
+Para los metadatos generales de la plataforma, aunque no visibles en el *frontend* de la prueba de concepto, se pobló la base de datos con períodos, técnicas pictóricas y breves biografías de los autores. Estos proporcionan información contextual esencial para la interpretación y categorización de las obras de arte que en una etapa posterior del proyecto podrían enriquecer la experiencia del usuario con una base mas robusta de contenido.
 
 Pasa la generación de estos se usaron dos enfoques distintos. Para técnicas pictóricas y períodos artísticos, se empleó generación directa con modelos de lenguaje. En cambio, para biografías de autores se extrajo información de Wikipedia para evitar imprecisiones en datos biográficos complejos, priorizando la calidad de la fuente.
 
@@ -261,7 +261,7 @@ Como se ha detallado previamente, la generación de este contenido requiere úni
 
 #pagebreak()
 
-En la generación de la biografía utilizó el script de extracción de información (@information-extraction-script) para procesar un breve texto narrado de la vida del autor, tomando datos de Wikipedia.
+En la generación de la biografía se utilizó un script de extracción de información (@information-extraction-script) para procesar un breve texto biográfico del autor.
 #v(.5cm)
 #figure(
   [
@@ -303,10 +303,10 @@ En la generación de la biografía utilizó el script de extracción de informac
 
 == Utilidades Generales de Procesamiento de Imágenes
 #v(.5cm)
-A continuación se definen utilidades de procesamiento de imágenes para el preprocesamiento básico antes de realizar llamadas a proveedores de servicios de inferencia o su uso en modelos autohospedados.
-- *`resize_if_oversized`* ajusta imágenes manteniendo proporciones, evitando que excedan un tamaño máximo para optimizar almacenamiento y rendimiento.
-- *`download_img`* descarga imágenes desde URLs usando un *user-agent* personalizado (para evitar bloqueos de conexión) y las redimensiona si superan el límite, garantizando su adaptación al sistema.
-- *`image_to_base64`* convierte imágenes PIL a base64, facilitando su transmisión y almacenamiento como texto plano para integración en APIs o bases de datos.
+A continuación, se definen utilidades de preprocesamiento general de imágenes que se aplican antes de realizar llamadas a proveedores de servicios de inferencia o de emplearlas en modelos autohospedados.
+- *`resize_if_oversized`*: ajusta imágenes manteniendo proporciones, evitando que excedan un tamaño máximo para optimizar almacenamiento y rendimiento.
+- *`download_img`*: descarga imágenes desde URLs usando un *user-agent* personalizado (para evitar bloqueos de conexión) y las redimensiona si superan el límite, garantizando su adaptación al sistema.
+- *`image_to_base64`*: convierte imágenes PIL a base64, facilitando su transmisión y almacenamiento como texto plano para integración en APIs o bases de datos.
 
 #figure(
   [
@@ -338,6 +338,53 @@ A continuación se definen utilidades de procesamiento de imágenes para el prep
   caption: "Utilidades de Procesamiento de Imágenes"
 ) <image-parsing-utilities>
 
+#pagebreak()
+== Generación de Audio Descriptivo
+#v(.5cm)
+Este modulo toma como entrada una _URL_ a una imagen, para luego procesarla en una descripción objetiva de los elementos representados.
+
+Para el procesamiento de las imagenes se utilizan las utilidades definidas en @image-parsing-utilities.
+Para la generación del texto se emplea un *prompt* estructurado que guía al modelo en la creación de descripciones del contenido representado utilizando una cadencia adecuada para su narración por voz.
+
+#figure(
+  [
+    ```python
+    DESCRIPTION_PROMPT = \
+    """Describe los elementos retratados en la imagen.
+    Considera lo siguiente:
+    - Debe estar en un formato adecuado para narración.
+    - Debe ser conciso y corto en duración.
+    - NO digas en resumen.
+    - NO seas redundante.
+    - NO utilices títulos ni subtitulos, solo escribe en parrafos narrados.
+
+    Elementos retratados: """
+
+    def get_description(url):
+        image = download_img(url)
+        b64_image = image_to_base64(image)
+        completion = client.chat.completions.create(
+            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            messages=[{
+                "role": "user",
+                "content": [
+                    { "type": "text",
+                      "text": DESCRIPTION_PROMPT },
+                    { "type": "image_url",
+                      "image_url": {
+                        "url": f"data:image/png;base64,{b64_image}"
+                      } }
+                ]
+            }],
+            temperature=0,
+        )
+        return completion.choices[0].message.content
+    ```
+  ],
+  caption: "Generación de texto para audios dscriptivos"
+) <descriptive-audio-gen>
+
+#pagebreak()
 == Narrador de Contexto
 #v(.3cm)
 Este modulo toma como entrada una _URL_ de un articulo de Wikipedia para generar una narración didáctica sobre el contexto en que una obra se produjo.
@@ -380,63 +427,16 @@ Utiliza el módulo descrito en @information-extraction-script para la extracció
   caption: "Generación de texto para narraciones"
 ) <context-narration-script>
 
-
-
-== Generación de Audio Descriptivo
-#v(.5cm)
-Este modulo toma como entrada una _URL_ a una imagen, para luego procesarla en una descripción objetiva de los elementos representados.
-
-Para el procesamiento de las imagenes se utilizan las utilidades definidas en @image-parsing-utilities.
-Para la generación del texto se emplea un *prompt* estructurado que guía al modelo en la creación de descripciones literales del contenido de la obra con cadencia de narración oral.
-
-#figure(
-  [
-    ```python
-    DESCRIPTION_PROMPT = \
-    """Describe los elementos retratados en la imagen.
-    Considera lo siguiente:
-    - Debe estar en un formato adecuado para narración.
-    - Debe ser conciso y corto en duración.
-    - NO digas en resumen.
-    - NO seas redundante.
-    - NO utilices títulos ni subtitulos, solo escribe en parrafos narrados.
-
-    Elementos retratados: """
-
-    def get_description(url):
-        image = download_img(url)
-        b64_image = image_to_base64(image)
-        completion = client.chat.completions.create(
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
-            messages=[{
-                "role": "user",
-                "content": [
-                    { "type": "text",
-                      "text": DESCRIPTION_PROMPT },
-                    { "type": "image_url",
-                      "image_url": {
-                        "url": f"data:image/png;base64,{b64_image}"
-                      } }
-                ]
-            }],
-            temperature=0,
-        )
-        return completion.choices[0].message.content
-    ```
-  ],
-  caption: "Generación de texto para audios dscriptivos"
-) <descriptive-audio-gen>
-
 #pagebreak()
 == Generación de Sonidos Ambientales
 #v(.5cm)
-La euristica utilizada para la generación de sonidos ambientales consiste en 3 pasos:
+La eurística utilizada para la generación de sonidos ambientales consiste en 3 pasos:
 
 1. *Segmentación de la imagen* (@image-quadrant-cropping): La obra se divide en cuadrantes mediante un algoritmo de particionamiento espacial. Cada cuadrante se utiliza posteriormente como entrada para los pasos posteriores.
 
 2. *Extracción semántica de elementos* (@sound-ambient-element-extraction): Mediante Llama 4 Scout 17B se analizan cada cuadrante para detectar objetos, seres vivos y elementos con potencial sonoro. La salida en JSON incluye descripción y clasificación (fondo/primer plano) de los elementos detectados.
 
-3. *Síntesis de audio ambiental* (@sound-ambient-generation): Utilizando modelos generativos de audio basados en difusión (AudioLDM), se produce una composición sonora multicanal que integra los elementos detectados. Cada componente sonoro se ajusta en términos de volumen y posición espacial relativa según su ubicación en la cuadrícula original, creando una experiencia auditiva coherente con la distribución visual de la obra.
+3. *Síntesis de audio ambiental* (@sound-ambient-generation): Utilizando modelos generativos de audio basados en difusión (AudioLDM), se produce una composición sonora multicanal que integra los elementos detectados. Cada componente sonoro se ajusta en términos de volumen de acuerdo a si es categorizado como un objeto de fondo.
 
 #v(.5cm)
 #figure(
@@ -565,7 +565,7 @@ La euristica utilizada para la generación de sonidos ambientales consiste en 3 
 
 == Text to Speech
 #v(.5cm)
-Para el módulo de *Text-to-Speech* (TTS) uno de los modelos que se utilizó fué *Kokoro*, para el cual existe una biblioteca en Python con módulos de inferencia preimplementados.
+Para el módulo de *Text-to-Speech* (TTS) se utilizó fué *Kokoro 82M* @kokorotts, para el cual existe una biblioteca en Python con módulos de inferencia preimplementados.
 
 #figure(
   [
@@ -585,7 +585,7 @@ Para el módulo de *Text-to-Speech* (TTS) uno de los modelos que se utilizó fu�
 ) <kokoro-tts-setup>
 
 #v(.5cm)
-Nuestro módulo de generación de TTS considera detalles como el añadido de silencios entre saltos de línea y pausas para mantener una cadencia fluida en la narración y la concatenación de las secciones generadas por _Kokoro_.
+Nuestro función de generación de TTS añade breves silencios entre parrafos para mantener una cadencia fluida en la narración.
 
 #figure(
   [

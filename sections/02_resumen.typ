@@ -1,6 +1,6 @@
 #text(size: 16pt)[*Resumen*]
 
-Este documento expone el desarrollo de una plataforma accesible de apreciación artística para público con discapacidad visual. La propuesta consiste en transformar obras en representaciones sonoras multifacéticas, que integran descripciones narrativas detalladas, contexto histórico-artístico y atmósferas auditivas generadas mediante modelos multimodales de lenguaje, sistemas de síntesis de voz de alta y modelos de generación sonora basada en texto.
+Este documento expone el desarrollo de una plataforma accesible de apreciación artística para público con discapacidad visual. La propuesta consiste en transformar obras en representaciones sonoras multifacéticas, integrando descripciones narrativas detalladas, contexto histórico-artístico y atmósferas auditivas por medio del uso de modelos multimodales de lenguaje, sistemas de síntesis de voz y modelos de generación sonora basada en texto.
 
 
 #v(.5cm)

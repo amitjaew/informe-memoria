@@ -17,7 +17,7 @@ El sistema permite tanto la consulta general de los elementos registrados (obras
 )
 
 #v(.4cm)
-Para garantizar compatibilidad con APIs externas de servicios de cómputo, los datos no estructurados (imágenes y audio) se transmiten codificados en base64. Este método, aunque aumenta el volumen de datos (alrededor del 30%), facilita la integración con SDKs de proveedores de inferencia compatibles con la API de OpenAI (como Groq, Novita o TogetherAI). Como mejora futura, se propone adoptar multipart-form-data en la subida y carga de archivos para optimizar el rendimiento de la plataforma.
+Para garantizar compatibilidad con APIs externas de servicios de cómputo, los datos no estructurados (imágenes y audio) se transmiten codificados en base64. Este método, aunque aumenta el tamaño de los datos enviados (alrededor del 33%), facilita la integración con SDKs de proveedores de inferencia compatibles con la API de OpenAI (como Groq, Novita o TogetherAI). Como mejora futura, se propone adoptar multipart-form-data en la subida y carga de archivos para optimizar el rendimiento de la plataforma.
 
 #pagebreak()
 == Frontend
@@ -32,7 +32,7 @@ Aunque no se realizaron pruebas con los usuarios objetivo, se evaluó el funcion
 )
 #v(.4cm)
 
-La funcionalidad de navegación implementa correctamente búsquedas por obra, autor, período y técnica. Sin embargo, el sistema emplea un mecanismo de coincidencia de cadenas que no considera variaciones ortográficas como los acentos, lo que introduce cierta rigidez en la experiencia de usuario.
+La funcionalidad de navegación implementa correctamente búsquedas por obra, autor, período y técnica. Sin embargo, el sistema emplea un mecanismo de coincidencia de strings que espera un match de acentuación, lo que hace rígida la utilización de la barra de busqueda.
 
 #v(.2cm)
 #figure(
@@ -46,7 +46,7 @@ La implementación de la visualización de obras y sus módulos asociados opera 
 #pagebreak()
 == Módulos Generativos
 #v(.4cm)
-A continuación se exponen los resultados obtenidos en los módulos generativos de la plataforma. Tal como se indicó en la sección anterior, estos componentes fueron implementados en un entorno independiente (cuadernillo hosteado en Kaggle) como parte de un desarrollo modular complementario al sistema principal.
+A continuación se exponen los resultados obtenidos en los módulos generativos de la plataforma. Tal como se indicó en la sección anterior, estas componentes fueron implementadas en un entorno independiente @cuadernillosensoria como parte de un desarrollo modular complementario al sistema principal.
 
 Como caso de estudio representativo, se ha seleccionado la obra *El Aquelarre* de Francisco de Goya para ilustrar el funcionamiento de los módulos.
 
@@ -57,7 +57,7 @@ Como caso de estudio representativo, se ha seleccionado la obra *El Aquelarre* d
 )
 #v(.6cm)
 
-A continuación, se evalúan los siguientes aspectos de los módulos implementados
+A continuación, se evalúan los siguientes aspectos:
 - La calidad del texto en los módulos de _Audio Descriptivo_ y _Narraciones de Contexto_.
 - La fidelidad y realismo del audio producido por el _Generador de Sonidos Ambientales_.
 - La naturalidad y claridad de la voz sintetizada empleada en las pruebas de concepto.
@@ -81,11 +81,13 @@ Los resultados obtenidos demuestran una notable correspondencia entre las imáge
   ],
   caption: [Descripción de Obra El Aquelarre de Francisco de Goya]
 )
+#v(1cm)
+La suficiencia de los modelos de lenguaje sin necesidad de incluir información extraída de fuentes autoritativas contrasta con lo observado en el siguiente módulo.
 
 #pagebreak()
 === Generación de Texto de Narraciones de Contexto
 #v(.4cm)
-Como es señalado en @context-narration-script, la generación de la narración toma por entrada un articulo de Wikipedia, en este caso
+Como es señalado en @context-narration-script, para evitar alucinaciones y producir información rica en contexto se toma por entrada un articulo de Wikipedia, para el caso ilustrado:
 #align(
   center,
   link("https://es.wikipedia.org/wiki/El_aquelarre_(1798)")
@@ -93,7 +95,10 @@ Como es señalado en @context-narration-script, la generación de la narración 
 
 Una comparación cruzada entre el texto generado y la información contenida en el artículo de Wikipedia demuestra una adecuada correspondencia con la fuente original, logrando transformar el contenido enciclopédico en una narración fluida y de carácter natural.
 
-El pipeline cumple sus objetivos al generar narraciones contextuales fluidas y coherentes. Aunque necesita ajustes para casos como anglicismos o siglas, evita alucinaciones comunes en consultas directas a modelos de lenguaje.
+El pipeline genera narraciones contextuales y evita alucinaciones vistas en prototipos anteriores de este módulo al utilizar consultas directas a modelos de lenguaje.
+
+Un trabajo pendiente es la corrección de casos borde, en particular anglicismos y siglas.
+
 
 #v(.4cm)
 *El Aquellare:*
@@ -114,7 +119,7 @@ El pipeline cumple sus objetivos al generar narraciones contextuales fluidas y c
 === Generador de Sonidos Ambientales
 #v(.4cm)
 
-El proceso de detección de elementos acústicos en la obra presenta un desempeño adecuado, aunque se observan ocasionales alucinaciones menores en la identificación de componentes específicos. No obstante, los elementos detectados mantienen coherencia temática con la obra analizada, resultado atribuible al mapeo en el espacio latente implementado en la pipeline visual de Llamav4 Maverick.
+El proceso de detección de elementos acústicos en la obra presenta un desempeño adecuado, aunque se observan ocasionales alucinaciones menores en la identificación de componentes específicos. No obstante, los elementos detectados mantienen coherencia temática con la obra analizada, resultado atribuible al mapeo en el espacio latente implementado en la pipeline visual de _Llamav4 Maverick_ @llama4.
 #figure(
   [
     #table(
@@ -170,12 +175,12 @@ El proceso de detección de elementos acústicos en la obra presenta un desempe�
 )
 #v(.4cm)
 
-Respecto a la calidad del audio generado se puede decir que aunque la mayoría de los cuadrantes producen resultados verosímiles y coherentes con las escenas representadas, se observa un grado variable de ruido y artefactos en las mezclas de sonido y se identifican _outliers_ donde los ambientes degeneran en ruido. Este comportamiento sugiere limitaciones en la generalización del modelo ante elementos visuales ambiguos y/o composiciones atípicas dentro de las obras.
+Respecto a la calidad del audio generado se puede decir que, aunque la mayoría de los cuadrantes producen resultados verosímiles y coherentes con las escenas representadas, se observa un grado variable de ruido y artefactos en las mezclas de sonido y se identifican _outliers_ donde los ambientes degeneran en ruido. Este comportamiento sugiere limitaciones en la generalización del modelo ante elementos visuales ambiguos y/o composiciones atípicas dentro de las obras.
 
 #pagebreak()
 === Audio Generado con TTS
 #v(.4cm)
-La implementación del módulo de Text-to-Speech (TTS) empleando Kokoro TTS demostró un nivel de naturalidad adecuado para la generación de audio en español, con una entonación fluida y una pronunciación generalmente clara de los textos descriptivos y narrativos. El tono neutral adoptado por el modelo resulta apropiado para una aplicación de accesibilidad cultural, ya que evita sesgos emocionales que podrían interferir con la percepción objetiva del contenido.
+La implementación del módulo de Text-to-Speech (TTS) (@kokoro-tts-generation) utilizando _Kokoro82M_ @kokorotts demostró un nivel de naturalidad adecuado para la generación de audio en español, con una entonación fluida y una pronunciación generalmente clara de los textos descriptivos y narrativos. El tono neutral adoptado por el modelo resulta apropiado para una aplicación de accesibilidad cultural, ya que evita sesgos emocionales que podrían interferir con la percepción objetiva del contenido.
 
 No obstante, se identificaron dificultades específicas en la pronunciación de anglicismos y siglas. Términos y nombres propios de otros idiomas son interpretados con reglas fonéticas del español, generando resultados poco intuitivos para el oyente. Esta limitación sugiere la necesidad de implementar un preprocesamiento que genere descripciones alternativas para dicho contenido (lo que fué implementado parcialmente en las estrategias de prompting de la generación de narraciones de contexto, ver @context-narration-script) o, alternativamente, incorporar un diccionario de excepciones para preservar la inteligibilidad en contextos técnicos.
 

@@ -47,9 +47,6 @@
 // -----------------------------------------------------
 // Bibliografía
 // -----------------------------------------------------
-@aksin said
-@westfahl:space said
-
 #bibliography("sections/09_bibliografia.bib")
 #pagebreak()
 

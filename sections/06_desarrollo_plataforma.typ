@@ -41,9 +41,7 @@ Este módulo se encarga de la generación de ambientes sonoros que representan l
 #figure(
   image("../figs/cropped_image_demo.png", height: 50%),
   caption: [
-    Ejemplo de segmentación de imagen en cuadrantes
-    #linebreak()
-    Obra: El Macho Cabrío, Francisco de Goya
+    Segmentación por Cuadrantes de Obra "El Aquelarre"
   ]
 ) <image-quadrant-segmentation-fig>
 

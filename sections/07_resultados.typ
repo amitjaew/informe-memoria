@@ -119,7 +119,8 @@ Un trabajo pendiente es la corrección de casos borde, en particular anglicismos
 === Generador de Sonidos Ambientales
 #v(.4cm)
 
-El proceso de detección de elementos acústicos en la obra presenta un desempeño adecuado, aunque se observan ocasionales alucinaciones menores en la identificación de componentes específicos. No obstante, los elementos detectados mantienen coherencia temática con la obra analizada, resultado atribuible al mapeo en el espacio latente implementado en la pipeline visual de _Llamav4 Maverick_ @llama4.
+El proceso de detección de elementos acústicos en la obra presenta un desempeño adecuado, aunque se observan alucinaciones ocacionales en la identificación de componentes específicos, como puede apreciarse en el objeto detectado en segunda imagen de @element-dettection-demo. No obstante, por lo general los elementos detectados mantienen coherencia temática con el contenido representado.
+// resultado atribuible al mapeo en el espacio latente implementado en la pipeline visual de _Llamav4 Maverick_ @llama4.
 #figure(
   [
     #table(
@@ -152,7 +153,7 @@ El proceso de detección de elementos acústicos en la obra presenta un desempe�
           align: left,
           [*Objeto*], [goat bleating],
           [*Fondo*], [tree branch creaking, people whispering],
-          [*Link*], [POR HACER]
+          [*Audio*], [https://youtu.be/dqOECGiEiBI]
         )
       ],
       [
@@ -164,7 +165,7 @@ El proceso de detección de elementos acústicos en la obra presenta un desempe�
           align: left,
           [*Fondo*], [sand],
           [*Objeto*], [puppy sleeping],
-          [*Link*], [POR HACER]
+          [*Audio*], [https://youtu.be/mT7UBvVd9m8]
         )
       ],
     )
@@ -172,7 +173,7 @@ El proceso de detección de elementos acústicos en la obra presenta un desempe�
   caption: [
     Muestra de Elementos Detectados en Obra "El Aquelarre"
   ]
-)
+) <element-dettection-demo>
 #v(.4cm)
 
 Respecto a la calidad del audio generado se puede decir que, aunque la mayoría de los cuadrantes producen resultados verosímiles y coherentes con las escenas representadas, se observa un grado variable de ruido y artefactos en las mezclas de sonido y se identifican _outliers_ donde los ambientes degeneran en ruido. Este comportamiento sugiere limitaciones en la generalización del modelo ante elementos visuales ambiguos y/o composiciones atípicas dentro de las obras.
@@ -184,6 +185,9 @@ La implementación del módulo de Text-to-Speech (TTS) (@kokoro-tts-generation) 
 
 No obstante, se identificaron dificultades específicas en la pronunciación de anglicismos y siglas. Términos y nombres propios de otros idiomas son interpretados con reglas fonéticas del español, generando resultados poco intuitivos para el oyente. Esta limitación sugiere la necesidad de implementar un preprocesamiento que genere descripciones alternativas para dicho contenido (lo que fué implementado parcialmente en las estrategias de prompting de la generación de narraciones de contexto, ver @context-narration-script) o, alternativamente, incorporar un diccionario de excepciones para preservar la inteligibilidad en contextos técnicos.
 
-*añadir link a wav*
+#v(1cm)
+Los audios generados para la descripción y la narración de "El Aquelarre" se pueden encontrar en los siguientes vínculos:
+- *Descripción*: https://youtu.be/7NwKlbHQKeo
+- *Narración*: https://youtu.be/P9EOz7Au4ZA
 
 #pagebreak()

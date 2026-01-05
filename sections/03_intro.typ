@@ -3,11 +3,13 @@
 El acceso equitativo al arte constituye un componente esencial del desarrollo cultural y social, sin embargo, las personas con discapacidad visual continúan enfrentando barreras significativas para disfrutar de obras visuales en condiciones comparables al resto del público. Aunque las tecnologías de apoyo han avanzado, aún existe una brecha entre la experiencia estética que ofrecen los museos y plataformas digitales tradicionales y las necesidades sensoriales de quienes no pueden percibir elementos visuales directamente.
 
 #v(.5cm)
-En este contexto, la inteligencia artificial emerge como una oportunidad para reimaginar la forma en que se transmite el contenido artístico, permitiendo crear experiencias inmersivas que integren narrativa, sonido y contextualización cultural. Este proyecto desarrolla una plataforma que transforma obras de arte en representaciones sonoras enriquecidas, combinando modelos multimodales capaces de interpretar imágenes, sistemas de síntesis de voz de alta naturalidad y tecnologías generativas orientadas a la creación de paisajes sonoros coherentes con la obra original.
+En este contexto, la inteligencia artificial emerge como una oportunidad para reimaginar la forma en que se transmite el contenido artístico, permitiendo crear experiencias que integren narrativa, sonido y contextualización cultural.
 
 #v(.5cm)
-La presente investigación se enmarca en los principios de accesibilidad universal y diseño inclusivo, procurando que la experiencia resultante sea funcional y adaptada a los casos de uso previstos. La plataforma busca responder a la necesidad de ofrecer alternativas sensoriales que amplíen el acceso al patrimonio artístico y cultural, fortaleciendo la inclusión mediante herramientas tecnológicas avanzadas.
+Este proyecto desarrolla una alternativa de accesibilidad para consumo de contenido orientado a personas con discapacidad visual. En particular se plantea utilizar modelos de lenguaje multimodales, sistemas de síntesis de voz y modelos generativos de audio para una pipeline integrada de producción de piezas de audio que comprendan desde narraciones habladas hasta paisajes sonoros que representen los contenidos de las obras.
 
+#v(.5cm)
+Dado que esta investigación se fundamenta en los principios de accesibilidad universal y diseño inclusivo, el acceso al contenido se implementará a través de un cliente web que considere estándares establecidos en la materia.
 
 #pagebreak()
 == Objetivo General
@@ -18,15 +20,16 @@ Mejorar la experiencia estética y promover la accesibilidad universal a las obr
 
 == Objetivos Particulares
 #v(.5cm)
-- *Proveer un catálogo curado de obras de dominio público*, basado en fuentes autoritativas y verificadas, que permita a los usuarios acceder a contenido confiable, culturalmente riguroso y legalmente seguro.
+- *Proveer un catálogo curado de obras de dominio público*, basado en fuentes autoritativas y verificadas.
 
-- *Generar descripciones auditivas de alta calidad* utilizando modelos de lenguaje multimodales capaces de interpretar intuitivamente los elementos visuales presentes en cada obra, garantizando una representación objetiva y comprensible de su contenido.
+- *Generar audios descriptivos*  que contengan una representación objetiva y comprensible del contenido visual de las obras.
 
-- *Crear narraciones históricas y biográficas* fundamentadas en fuentes reconocidas, con el fin de contextualizar la obra, su autor(a) y su relevancia artística dentro de un marco cultural accesible.
+- *Crear audios narrativos con contenido histórico/biográfico* fundamentadas en fuentes reconocidas, que contextualizen la obra, su autor(a) y su relevancia artística.
 
-- *Producir ambientes sonoros inmersivos* que recreen atmósferas coherentes con la escena o época sugerida por la obra, mediante modelos generativos capaces de transformar imágenes en audio evocativo y sensorialmente enriquecido.
+- *Producir ambientes sonoros inmersivos* que recreen la atmósfera de las obras con piezas de audio evocativo y coherente con el contenido representado.
 
-- *Diseñar una interfaz centrada en accesibilidad*, que permita la navegación autónoma de personas en situación de discapacidad visual, incorporando criterios y normativas vigentes en materia de accesibilidad universal y diseño inclusivo.
+- *Diseñar una interfaz centrada en accesibilidad*, que habilite una experiencia de navegación cómoda para personas con discapacidad visual.
+//, incorporando criterios y normativas vigentes en materia de accesibilidad universal y diseño inclusivo.
 
 #v(.5cm)
 == Estructura

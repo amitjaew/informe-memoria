@@ -46,7 +46,7 @@ Este módulo se encarga de la generación de ambientes sonoros que representan l
 ) <image-quadrant-segmentation-fig>
 
 #pagebreak()
-=== Catálogo de Obras/Imagenes
+=== Catálogo de Obras/Imágenes
 #v(.5cm)
 Se elaboró un conjunto de datos en formato JSON que incluye 30 obras artísticas @datasetbasesensoria, conteniendo todo el material requerido para generar el contenido de la plataforma. Este dataset incorpora, además, enlaces a los artículos de Wikipedia asociados a cada obra artística para tener referencias autoritativas en la generación de narraciones historicas sobre la producción de las mismas.
 

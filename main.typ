@@ -11,10 +11,6 @@
 )
 #set par(justify: true, leading: 1.5em)
 
-#set heading(numbering: "I.1.a")
-#show heading.where(level: 1): set heading(numbering: "I)")
-#show heading.where(level: 2): set heading(numbering: "I.1)")
-
 // Header / footer
 // #set header()
 // #set footer(center: page-number())
@@ -36,10 +32,12 @@
 #outline(title: "Lista de Tablas", target: figure.where(kind:table))
 
 #pagebreak()
-
 #outline(title: "Contenidos")
 #pagebreak()
 
+#set heading(numbering: "I.1.a")
+#show heading.where(level: 1): set heading(numbering: "I)")
+#show heading.where(level: 2): set heading(numbering: "I.1)")
 // -----------------------------------------------------
 // Capítulos
 // -----------------------------------------------------

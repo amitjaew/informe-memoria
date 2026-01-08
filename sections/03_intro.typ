@@ -35,7 +35,7 @@ Mejorar la experiencia estética y promover la accesibilidad universal a las obr
 == Estructura
 #v(.2cm)
 
-El presente análisis incluye:
+El presente informe incluye:
 #emph[
   - *Revisión del estado del arte* sobre modelos generativos y estandares de accesibilidad.
   - *Evaluación del marco teórico utilizado* para el desarrollo de la plataforma.

@@ -222,15 +222,13 @@ A pesar de los avances en tecnologías de accesibilidad artística, persiste una
 Durante los últimos años los modelos múltimodales de lenguaje han experimentado avances significativos, integrando capacidades de procesamiento de texto, imagen, audio y video. Este progreso ha sido impulsado por arquitecturas unificadas basadas en Transformers que permiten compartir un espacio de representación común entre modalidades. Avances como los _Vision-Language Encoders (VLMs)_, los _Audio-Text aligners_ y la _Tokenización Unificada_ han permitido integrar imágenes, audio y texto como secuencias compatibles. Además, técnicas como el _cross-attention multimodal_, la _late fusion optimizada_ y el _modality routing_ han mejorado la coherencia entre modalidades, habilitando tareas complejas de razonamiento y generación conjunta en múltiples formatos.
 
 #figure(
-  image("../figs/multimodal_llms.png", height: 25%),
-  caption: [Multimodal LLMs]
-)
+  image("../figs/llama4_multimodal_encoding.png", height: 59%),
+  caption: [Codificación Multimodal Llama V4]
+) <llamav4-multimodal-encoding>
 
-#v(.7cm)
 Algunos modelos destacados a la fecha son:
 
-- *Llama v4 Maverick (Meta)*: Modelo multimodal con pesos liberados capaz de elaborar descripciones semánticas de imágenes por medio de codificación con _MetaCLIP_ @llama4.
-
+- *Llama v4 Maverick (Meta)*: Modelo multimodal con pesos liberados capaz de elaborar descripciones semánticas de imágenes por medio de codificación con _MetaCLIP_ @llama4. La codificación multimodal de LLaMA v4 (@llamav4-multimodal-encoding) puede entenderse como una arquitectura de fusión temprana en la que el texto, las imágenes y los fotogramas de video se convierten primero en secuencias de tokens compatibles y luego se unifican antes del procesamiento profundo con transformadores. Al alinear los tokens visuales con los tokens textuales desde la etapa de entrada, el modelo permite representaciones compartidas que facilitan la interacción entre modalidades a lo largo de todas las capas del transformador, y no solo al final. La atención contextual (o atención multimodal) opera entonces de forma bidireccional: el texto atiende a las características visuales y los tokens visuales atienden al contexto lingüístico, lo que favorece el razonamiento conjunto y el anclaje semántico. Este diseño prioriza una comprensión global y coherente entre modalidades, donde el significado surge de la interacción continua entre lenguaje y visión, en lugar de una fusión tardía específica para cada tarea.
 - *GPT-4o (OpenAI) y Gemini 1.5 (Google)*: Modelos con integración nativa de texto, imagen y audio. Sin pesos liberados.
 
 - *DeepSeek-OCR (DeepSeek)*: Modelo multimodal de código abierto especializado en OCR y documentos visuales. Usa compresión óptica 2D para procesar contextos largos con alta precisión y bajo uso de tokens @deepseekocr.

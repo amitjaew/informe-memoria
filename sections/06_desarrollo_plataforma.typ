@@ -1,18 +1,34 @@
 = Desarrollo de la Plataforma
 #v(.5cm)
+
+/*
 La arquitectura propuesta sigue un modelo cliente-servidor e incorpora una _API Gateway_ como componente central. Esta cumple dos funciones principales: por un lado, centraliza las operaciones computacionalmente intensivas (principalmente inferencia de modelos de aprendizaje automático y las solicitudes a APIs externas), y por otro, gestiona un catálogo centralizado de recursos.
 
+*/
+La arquitectura propuesta se fundamenta en un modelo cliente-servidor, decisión que responde a la necesidad de desacoplar las interfaces de usuario de los procesos computacionalmente intensivos asociados a la inferencia de modelos de aprendizaje automático y al procesamiento multimedia. Este enfoque permite, por un lado, mantener una experiencia de usuario fluida en dispositivos con capacidades limitadas y, por otro, facilitar la escalabilidad y mantenibilidad del sistema.
+
+#v(.5cm)
+== API Gateway
+#v(.2cm)
+Se incorpora una API Gateway como componente central de la arquitectura. La elección de una API Gateway se justifica por tres motivos principales:
+- Centralizar el acceso a funcionalidades heterogéneas bajo una interfaz uniforme, reduciendo la complejidad del frontend
+- Aislar los servicios internos del sistema, permitiendo su evolución independiente
+- Concentrar las tareas de mayor costo computacional en un entorno controlado, optimizado para la ejecución de modelos de IA.
+
 Además, se desarrolla un _frontend_ que aplica principios de accesibilidad, con especial atención a las necesidades de usuarios con discapacidad visual.
+
 #figure(
   image("../figs/diagrama_arquitectura.png"),
   caption: "Arquitectura General de Sistema"
-)
+) <arqgeneralsistema>
 
+#v(.2cm)
 #pagebreak()
-== API Gateway
-#v(.2cm)
-La API Gateway consiste en un servidor de Django, encargado de controlar 4 servicios:
-#v(.2cm)
+Se decide utilizar Django como framework por su capacidad para agilizar el desarrollo de APIs robustas mediante su sistema de ORM, su arquitectura basada en modelos-vistas-plantillas (MVT) y su ecosistema de paquetes especializados. Además, su soporte integrado para autenticación, manejo de rutas y middleware facilita la implementación de políticas de seguridad y gestión de solicitudes, aspectos críticos para en el futuro robustecer nuestro sistema con flujos de administración de contenido.
+
+Nuestra API Gateway se divide en cuatro servicios independientes para garantizar un adecuado encapsulamiento durante el desarrollo de la plataforma (@arqgeneralsistema). Cada uno de estos servicios corresponde a un módulo débilmente acoplado, asociado a tablas específicas dentro del modelo de datos.
+
+#v(.5cm)
 === Generador de Audio Descriptivo
 #v(.2cm)
 
@@ -34,7 +50,8 @@ Este módulo genera narraciones auditivas que contextualizan históricamente cad
 
 Este módulo se encarga de la generación de ambientes sonoros que representan los contenidos literales (no abstractos) de sus imagenes de entrada. La heuristica utilizada consiste en:
 - Dividir el espacio en cuadrantes, en nuestro caso 9 (@image-quadrant-cropping), como se puede apreciar en @image-quadrant-segmentation-fig.
-- Procesar cada cuadrante con LLMs multimodales, obteniendo salidas estructuradas en JSON (@sound-ambient-element-extraction) representando cada elemento detectado.
+// - Procesar cada cuadrante con LLMs multimodales, obteniendo salidas estructuradas en JSON (@sound-ambient-element-extraction) representando cada elemento detectado.
+- Procesar cada cuadrante mediante modelos de lenguaje multimodales (@sound-ambient-element-extraction). Por razones de operatividad con modelos de lenguaje y facilidad de interpretación se decide procesar la salida de esta parte en formato JSON.
 - Por cada cuadrante generar una mezcla de sonido integrando todos los elementos detectados en cada respectiva sección (@sound-ambient-generation).
 
 #v(.5cm)

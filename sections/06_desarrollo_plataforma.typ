@@ -69,10 +69,119 @@ Se elaboró un conjunto de datos en formato JSON que incluye 30 obras artística
 
 Una vez procesado el conjunto de datos, sus campos son expuestos a través de la *API* mediante endpoints específicos. Los datos textuales se almacenan en una base de datos SQLite, mientras que las imágenes y archivos de audio generados se guardan en el sistema de archivos local del backend.
 
+*AÑADIR AQUI FIGURA CON MUESTRA DE DATASET*
+
+#pagebreak()
+=== Modelo de Datos
+#v(.5cm)
+Se organiza la información artística mediante un conjunto de entidades interrelacionadas que permiten representar tanto los metadatos estructurales de una obra como sus componentes descriptivos y narrativos. Diagrama UML del modelo se puede ver en @uml-modelo-datos.
+
+#v(.5cm)
++ *Artwork* #linebreak()
+  Entidad central del modelo, representa una obra artística individual. Almacena información general y contextual de la obra, incluyendo su título, fecha de creación y contexto histórico. #linebreak()
+  Se relaciona con todas las entidades del modelo de datos.
+  #v(.2cm)
+  Campos:
+  #columns(3)[
+    - `id`
+    - `title`
+    #colbreak()
+    - `date`
+    - `historic_context`
+    #colbreak()
+    - `author_id`
+    - `technique_id`
+    - `style_id`
+  ]
+
+#v(.4cm)
++ *Author*
+  Representa al autor o creador de una o más obras artísticas.
+  Un autor puede estar asociado a múltiples obras, estableciendo una relación de tipo 1–N con *Artwork*.
+  #v(.2cm)
+  Campos:
+  #columns(3)[
+    - `id`
+    #colbreak()
+    - `name`
+    #colbreak()
+    - `description`
+  ]
+
+  #v(.4cm)
++ *Technique*
+  Describe la técnica artística utilizada en la creación de una obra. Una técnica puede ser utilizada por múltiples obras, manteniendo una relación 1–N con la entidad *Artwork*.
+  #v(.2cm)
+  Campos:
+  #columns(3)[
+    - `id`
+    #colbreak()
+    - `name`
+    #colbreak()
+    - `description`
+  ]
+
+  #v(.4cm)
++ *Style*
+  Define el estilo artístico al que pertenece una obra.
+  Un estilo puede asociarse a múltiples obras, estableciendo una relación 1–N con *Artwork*.
+  #v(.2cm)
+  Campos:
+  #columns(3)[
+    - `id`
+    #colbreak()
+    - `name`
+    #colbreak()
+    - `description`
+  ]
+
+  #v(.4cm)
++ *Artwork Ambience*
+  Representa elementos de ambientación asociados a una obra,
+  permitiendo modelar componentes espaciales o interactivos mediante coordenadas bidimensionales.
+  Se relaciona con *Artwork* a través de una relación 1–N.
+  #v(.2cm)
+  Campos:
+  #columns(3)[
+    - `id`
+    - `artwork_id`
+    #colbreak()
+    - `x_pos`
+    #colbreak()
+    - `y_pos`
+  ]
+
+  #v(.4cm)
++ *Artwork Narration*
+  Contiene fragmentos narrativos o explicativos asociados a una obra. Una obra puede poseer múltiples narraciones, cada una vinculada mediante una relación de tipo 1–N.
+  #v(.2cm)
+  Campos:
+  #columns(3)[
+    - `id`
+    #colbreak()
+    - `content`
+    #colbreak()
+    - `artwork_id`
+  ]
+
+  #v(.4cm)
++ *Artwork Description*
+  Almacena descripciones textuales de una obra, permitiendo múltiples niveles o enfoques descriptivos.
+  Se relaciona con *Artwork* mediante una relación de tipo 1–N.
+  #v(.2cm)
+  Campos:
+  #columns(3)[
+    - `id`
+    #colbreak()
+    - `content`
+    #colbreak()
+    - `artwork_id`
+  ]
+
 #figure(
   image("../figs/datamodel.png"),
   caption: "Modelo de Datos de la Plataforma"
-)
+) <uml-modelo-datos>
 
 #pagebreak()
 == Frontend

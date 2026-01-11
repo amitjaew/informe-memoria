@@ -41,7 +41,23 @@ La funcionalidad de navegación implementa correctamente búsquedas por obra, au
 )
 #v(.4cm)
 
-La implementación de la visualización de obras y sus módulos asociados opera de manera adecuada, logrando una integración efectiva del contenido audiovisual.
+Cada input cuenta con placeholders, lo que facilita la integración con utilidades de accesibilidad para navegador web.
+
+#pagebreak()
+
+En la visualización directa de la obra se muestran los metadatos generales de la obra (título, autor, fecha, período y técnica) junto al contenido de los módulos de _Narración_ y _Descripción_ con sus audios procesados con TTS.
+
+#figure(
+  image("../figs/frontend_obra.png")
+)
+#v(.5cm)
+
+El acceso a los ambientes sonoros de la obra se realiza mediante un clic o la selección de la misma. Sin embargo, este elemento carece de un etiquetado adecuado que indique claramente su funcionalidad, lo que dificulta su uso para personas con discapacidad visual. Como mejora pendiente, se propone implementar un etiquetado que permita identificar de manera explícita los contenidos y la interacción asociada a esta componente.
+#v(.3cm)
+Al visualizar los ambientes de sonido basta con hacer click o seleccionar cualquiera de los 9 cuadrantes para reproducir el paisaje sonoro asociado a dicha sección.
+#figure(
+  image("../figs/frontend_ambiente.png")
+)
 
 #pagebreak()
 == Módulos Generativos

@@ -13,23 +13,26 @@ Dado que esta investigación se fundamenta en los principios de accesibilidad un
 
 #pagebreak()
 == Objetivo General
-#v(1cm)
+#v(.5cm)
 Mejorar la experiencia estética y promover la accesibilidad universal a las obras de arte para personas con discapacidad visual mediante el diseño e implementación de una plataforma accesible que utilice inteligencia artificial para transformar automáticamente imágenes de obras artísticas en paisajes sonoros y descripciones auditivas significativas.
 
-#v(.7cm)
-
+#v(.5cm)
 == Objetivos Particulares
 #v(.5cm)
-- *Proveer un catálogo curado de obras de dominio público*, basado en fuentes autoritativas y verificadas.
++ *Proveer un catálogo curado de obras de dominio público*, basado en fuentes autoritativas y verificadas.
 
-- *Generar audios descriptivos*  que contengan una representación objetiva y comprensible del contenido visual de las obras.
++ *Generar audios descriptivos*  que contengan una representación objetiva y comprensible del contenido visual de las obras.
 
-- *Crear audios narrativos con contenido histórico/biográfico* fundamentadas en fuentes reconocidas, que contextualizen la obra, su autor(a) y su relevancia artística.
++ *Crear audios narrativos con contenido histórico/biográfico* fundamentadas en fuentes reconocidas, que contextualizen la obra, su autor(a) y su relevancia artística.
 
-- *Producir ambientes sonoros inmersivos* que recreen la atmósfera de las obras con piezas de audio evocativo y coherente con el contenido representado.
++ *Producir ambientes sonoros inmersivos* que recreen la atmósfera de las obras con piezas de audio evocativo y coherente con el contenido representado.
 
-- *Diseñar una interfaz centrada en accesibilidad*, que habilite una experiencia de navegación cómoda para personas con discapacidad visual.
++ *Diseñar una interfaz centrada en accesibilidad*, que habilite una experiencia de navegación cómoda para personas con discapacidad visual.
 //, incorporando criterios y normativas vigentes en materia de accesibilidad universal y diseño inclusivo.
+
+
+#v(.5cm)
+Los aportes realizados por quien escribe este informe corresponden principalmente a los objetivos *1* y *4*. No obstante, también se hicieron observaciones y contribuciones significativas en los módulos *2* y *3*. Por ello, el presente informe se centrará en el potencial de uso de herramientas de estado del arte para la producción de contenido accesible.
 
 #v(.5cm)
 == Estructura
@@ -37,10 +40,11 @@ Mejorar la experiencia estética y promover la accesibilidad universal a las obr
 
 El presente informe incluye:
 #emph[
-  - *Revisión del estado del arte* sobre modelos generativos y estandares de accesibilidad.
-  - *Evaluación del marco teórico utilizado* para el desarrollo de la plataforma.
-  - *Descripción de la plataforma desarrollada* a nivel de componentes.
-  - *Revisión de resultados obtenidos y conclusiones al respecto*.
+  - Introducción del *Marco Teórico* de los tópicos mas relevantes del trabajo.
+  - Revisión del *Estado del Arte* sobre modelos generativos y estandares de accesibilidad.
+  - Descripción del proceso de *Desarrollo de Plataforma* a nivel de componentes.
+  - Revisión de *Resultados* obtenidos.
+  - *Conclusiones* sobre el potencial de aplicación del trabajo realizado.
 ]
 
 #pagebreak()

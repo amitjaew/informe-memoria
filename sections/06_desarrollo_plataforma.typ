@@ -65,11 +65,31 @@ Este módulo se encarga de la generación de ambientes sonoros que representan l
 #pagebreak()
 === Catálogo de Obras/Imágenes
 #v(.5cm)
-Se elaboró un conjunto de datos en formato JSON que incluye 30 obras artísticas @datasetbasesensoria, conteniendo todo el material requerido para generar el contenido de la plataforma. Este dataset incorpora, además, enlaces a los artículos de Wikipedia asociados a cada obra artística para tener referencias autoritativas en la generación de narraciones historicas sobre la producción de las mismas.
+Se elaboró un conjunto de datos que incluye 30 obras artísticas @datasetbasesensoria, conteniendo todo el material requerido para generar el contenido de la plataforma. Este dataset incorpora, además, enlaces a los artículos de Wikipedia asociados a cada obra artística para tener referencias autoritativas en la generación de narraciones historicas sobre la producción de las mismas. Se escoge formato JSON por facilidad de integración nativa en python.
+
+#v(.5cm)
+#figure(
+  [```
+    [
+      {
+        "author": "Pieter Bruegel the Elder",
+        "title": "The Hunters in the Snow",
+        "technique": "óleo sobre panel",
+        "period": "Renacimiento",
+        "elements": "Tres cazadores cansados con perros...",
+        "context": "Parte de la serie 'Meses/Estaciones'...",
+        "link": "https://en.wikipedia.org/wiki/The_Hunters_in_the_Snow",
+        "im_link": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Pieter_Bruegel_the_Elder_-_Hunters_in_the_Snow_%28Winter%29_-_Google_Art_Project.jpg",
+        "date": 1565
+      },
+      ...
+  ]
+  ```],
+  caption: "Muestra de Dataset"
+)
+#v(.5cm)
 
 Una vez procesado el conjunto de datos, sus campos son expuestos a través de la *API* mediante endpoints específicos. Los datos textuales se almacenan en una base de datos SQLite, mientras que las imágenes y archivos de audio generados se guardan en el sistema de archivos local del backend.
-
-*AÑADIR AQUI FIGURA CON MUESTRA DE DATASET*
 
 #pagebreak()
 === Modelo de Datos
@@ -166,7 +186,7 @@ Se organiza la información artística mediante un conjunto de entidades interre
 
   #v(.4cm)
 + *Artwork Description*
-  Almacena descripciones textuales de una obra, permitiendo múltiples niveles o enfoques descriptivos.
+  Almacena descripciones textuales de los contenidos de una obra.
   Se relaciona con *Artwork* mediante una relación de tipo 1–N.
   #v(.2cm)
   Campos:

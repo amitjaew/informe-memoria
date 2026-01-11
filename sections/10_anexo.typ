@@ -1,7 +1,7 @@
 #import "@preview/codly:1.3.0": *
 #import "@preview/codly-languages:0.1.1": *
 #show: codly-init.with()
-#show figure.where(kind: raw): set figure(supplement: [Código])
+#show figure.where(kind: raw): set figure(supplement: [Anexo / Código])
 #codly(languages: codly-languages)
 
 = Anexo

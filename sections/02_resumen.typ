@@ -4,7 +4,7 @@ Este documento expone el desarrollo de una plataforma accesible de apreciación 
 
 
 #v(.5cm)
-La solucion expuesta propone facilitar el acceso al arte mediante una experiencia adaptada, con el objetivo de ofrecer alternativas de apreciación sensorial para personas con discapacidad visual.
+La solución expuesta propone facilitar el acceso al arte mediante una experiencia adaptada, con el objetivo de ofrecer alternativas de apreciación sensorial para personas con discapacidad visual.
 
 #v(1cm)
 *Palabras clave*:

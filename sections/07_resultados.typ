@@ -48,15 +48,17 @@ Cada input cuenta con placeholders, lo que facilita la integración con utilidad
 En la visualización directa de la obra se muestran los metadatos generales de la obra (título, autor, fecha, período y técnica) junto al contenido de los módulos de _Narración_ y _Descripción_ con sus audios procesados con TTS.
 
 #figure(
-  image("../figs/frontend_obra.png")
+  image("../figs/frontend_obra.png"),
+  caption: [Vista General de Obra en Frontend]
 )
 #v(.5cm)
 
-El acceso a los ambientes sonoros de la obra se realiza mediante un clic o la selección de la misma. Sin embargo, este elemento carece de un etiquetado adecuado que indique claramente su funcionalidad, lo que dificulta su uso para personas con discapacidad visual. Como mejora pendiente, se propone implementar un etiquetado que permita identificar de manera explícita los contenidos y la interacción asociada a esta componente.
+El acceso a los ambientes sonoros de la obra se realiza mediante un click o la selección de la misma. Sin embargo, este elemento carece de un etiquetado adecuado que indique claramente su funcionalidad, lo que dificulta su uso para personas con discapacidad visual. Como mejora pendiente, se propone implementar un etiquetado que permita identificar de manera explícita los contenidos y la interacción asociada a esta componente.
 #v(.3cm)
 Al visualizar los ambientes de sonido basta con hacer click o seleccionar cualquiera de los 9 cuadrantes para reproducir el paisaje sonoro asociado a dicha sección.
 #figure(
-  image("../figs/frontend_ambiente.png")
+  image("../figs/frontend_ambiente.png"),
+  caption: [Vista de Ambientes Sonido en Frontend]
 )
 
 #pagebreak()

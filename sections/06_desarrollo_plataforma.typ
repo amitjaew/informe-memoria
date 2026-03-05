@@ -1,14 +1,12 @@
 = Desarrollo de la Plataforma
+
+
+#v(.6cm)
+== Toma de Requerimientos
 #v(.3cm)
 
-La arquitectura propuesta se fundamenta en un modelo cliente-servidor, decisión que responde a la necesidad de desacoplar las interfaces de usuario de los procesos computacionalmente intensivos asociados a la inferencia de modelos de aprendizaje automático y al procesamiento multimedia. Este enfoque permite, por un lado, mantener una experiencia de usuario fluida en dispositivos con capacidades limitadas y, por otro, facilitar la escalabilidad y mantenibilidad del sistema.
-
-#v(.2cm)
-== Toma de Requerimientos
-#v(.2cm)
-
 === Requisitos Funcionales
-#v(.2cm)
+#v(.3cm)
 
 - *Catálogo de obras*: El sistema debe construir, procesar y exponer un catálogo digital curado de obras artísticas de dominio público, a partir de fuentes confiables previamente identificadas, incorporando imágenes y metadatos descriptivos (título, autor, técnica, periodo y contexto histórico).
 
@@ -20,17 +18,21 @@ La arquitectura propuesta se fundamenta en un modelo cliente-servidor, decisión
 
 - *Interfaz accesible*: El cliente web debe diseñarse e implementarse conforme a estándares de accesibilidad @wcag, considerando revisión normativa, análisis de buenas prácticas, prototipado accesible y validación con usuarios, garantizando compatibilidad con lectores de pantalla, navegación por teclado y cumplimiento de criterios básicos de accesibilidad.
 
+#pagebreak()
 === Requisitos No Funcionales
-#v(.1cm)
+#v(.3cm)
 
 - *Accesibilidad*: La interfaz debe ser intuitiva y de fácil integración con herramientas de accesibilidad.
 - *Modularidad*: Los módulos de generación de contenido deben ser independientes y reemplazables entre sí.
 - *Escalabilidad*: La arquitectura debe permitir incorporar nuevas obras sin modificaciones estructurales al sistema.
 - *Interoperabilidad*: Los servicios deben exponer sus funcionalidades mediante una API REST con endpoints documentados.
 
-#v(.2cm)
+#v(.5cm)
+La arquitectura propuesta como solución se fundamenta en un modelo cliente-servidor, decisión que responde a la necesidad de desacoplar las interfaces de usuario de los procesos computacionalmente intensivos asociados a la inferencia de modelos de aprendizaje automático y al procesamiento multimedia. Este enfoque permite, por un lado, mantener una experiencia de usuario fluida en dispositivos con capacidades limitadas y, por otro, facilitar la escalabilidad y mantenibilidad del sistema.
+
+#v(.7cm)
 == API Gateway
-#v(.1cm)
+#v(.2cm)
 Se incorpora una API Gateway como componente central de la arquitectura. La elección de una API Gateway se justifica por tres motivos principales:
 - Centralizar el acceso a funcionalidades heterogéneas bajo una interfaz uniforme, reduciendo la complejidad del frontend
 - Aislar los servicios internos del sistema, permitiendo su evolución independiente
@@ -43,7 +45,7 @@ Además, se desarrolla un _frontend_ que aplica principios de accesibilidad, con
   caption: "Arquitectura General de Sistema"
 ) <arqgeneralsistema>
 
-#v(.2cm)
+#v(.4cm)
 
 Se decide utilizar Django como framework por su capacidad para agilizar el desarrollo de APIs robustas mediante su sistema de ORM, su arquitectura basada en modelos-vistas-plantillas (MVT) y su ecosistema de paquetes especializados. Además, su soporte integrado para autenticación, manejo de rutas y middleware facilita la implementación de políticas de seguridad y gestión de solicitudes, aspectos críticos para en el futuro robustecer nuestro sistema con flujos de administración de contenido.
 
@@ -63,7 +65,7 @@ Esta separación permite integrar tanto servicios externos especializados como s
 
 // Nuestra API Gateway se divide en cuatro servicios independientes para garantizar un adecuado encapsulamiento durante el desarrollo de la plataforma (@arqgeneralsistema). Cada uno de estos servicios corresponde a un módulo débilmente acoplado, asociado a tablas específicas dentro del modelo de datos.
 
-#pagebreak()
+#v(.5cm)
 === Generador de Audio Descriptivo
 #v(.2cm)
 

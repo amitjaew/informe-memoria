@@ -1,15 +1,36 @@
 = Desarrollo de la Plataforma
-#v(.5cm)
+#v(.3cm)
 
-/*
-La arquitectura propuesta sigue un modelo cliente-servidor e incorpora una _API Gateway_ como componente central. Esta cumple dos funciones principales: por un lado, centraliza las operaciones computacionalmente intensivas (principalmente inferencia de modelos de aprendizaje automático y las solicitudes a APIs externas), y por otro, gestiona un catálogo centralizado de recursos.
-
-*/
 La arquitectura propuesta se fundamenta en un modelo cliente-servidor, decisión que responde a la necesidad de desacoplar las interfaces de usuario de los procesos computacionalmente intensivos asociados a la inferencia de modelos de aprendizaje automático y al procesamiento multimedia. Este enfoque permite, por un lado, mantener una experiencia de usuario fluida en dispositivos con capacidades limitadas y, por otro, facilitar la escalabilidad y mantenibilidad del sistema.
 
-#v(.5cm)
-== API Gateway
 #v(.2cm)
+== Toma de Requerimientos
+#v(.2cm)
+
+=== Requisitos Funcionales
+#v(.2cm)
+
+- *Catálogo de obras*: El sistema debe construir, procesar y exponer un catálogo digital curado de obras artísticas de dominio público, a partir de fuentes confiables previamente identificadas, incorporando imágenes y metadatos descriptivos (título, autor, técnica, periodo y contexto histórico).
+
+- *Audio descriptivo*: Se deben generar descripciones textuales objetivas de las obras mediante modelos multimodales, y posteriormente convertir dichas descripciones en audio utilizando tecnología de síntesis de voz, validando su calidad con usuarios.
+
+- *Narración contextual*: El sistema debe integrar un módulo automatizado de extracción, síntesis y generación narrativa que, a partir de fuentes históricas autoritativas, produzca narraciones coherentes y estructuradas sobre el contexto histórico y cultural de cada obra, las cuales deben poder reproducirse mediante síntesis de voz accesible.
+
+- *Ambiente sonoro*: La plataforma debe seleccionar, evaluar e integrar modelos generativos de imagen a audio para producir dinámicamente paisajes sonoros asociados a las obras, mediante servicios backend expuestos a un frontend interactivo que permita su exploración, asegurando validación de la experiencia con usuarios.
+
+- *Interfaz accesible*: El cliente web debe diseñarse e implementarse conforme a estándares de accesibilidad @wcag, considerando revisión normativa, análisis de buenas prácticas, prototipado accesible y validación con usuarios, garantizando compatibilidad con lectores de pantalla, navegación por teclado y cumplimiento de criterios básicos de accesibilidad.
+
+=== Requisitos No Funcionales
+#v(.1cm)
+
+- *Accesibilidad*: La interfaz debe ser intuitiva y de fácil integración con herramientas de accesibilidad.
+- *Modularidad*: Los módulos de generación de contenido deben ser independientes y reemplazables entre sí.
+- *Escalabilidad*: La arquitectura debe permitir incorporar nuevas obras sin modificaciones estructurales al sistema.
+- *Interoperabilidad*: Los servicios deben exponer sus funcionalidades mediante una API REST con endpoints documentados.
+
+#v(.2cm)
+== API Gateway
+#v(.1cm)
 Se incorpora una API Gateway como componente central de la arquitectura. La elección de una API Gateway se justifica por tres motivos principales:
 - Centralizar el acceso a funcionalidades heterogéneas bajo una interfaz uniforme, reduciendo la complejidad del frontend
 - Aislar los servicios internos del sistema, permitiendo su evolución independiente
@@ -23,12 +44,26 @@ Además, se desarrolla un _frontend_ que aplica principios de accesibilidad, con
 ) <arqgeneralsistema>
 
 #v(.2cm)
-#pagebreak()
+
 Se decide utilizar Django como framework por su capacidad para agilizar el desarrollo de APIs robustas mediante su sistema de ORM, su arquitectura basada en modelos-vistas-plantillas (MVT) y su ecosistema de paquetes especializados. Además, su soporte integrado para autenticación, manejo de rutas y middleware facilita la implementación de políticas de seguridad y gestión de solicitudes, aspectos críticos para en el futuro robustecer nuestro sistema con flujos de administración de contenido.
 
-Nuestra API Gateway se divide en cuatro servicios independientes para garantizar un adecuado encapsulamiento durante el desarrollo de la plataforma (@arqgeneralsistema). Cada uno de estos servicios corresponde a un módulo débilmente acoplado, asociado a tablas específicas dentro del modelo de datos.
+#v(.2cm)
+Como se observa en @arqgeneralsistema, la API Gateway orquesta cuatro módulos principales:
 
-#v(.5cm)
+- *Narrador de Contexto*: encargado de interpretar la información proveniente del cliente y estructurar descripciones coherentes mediante modelos de lenguaje multimodales externos.
+
+- *Generador de Audio Descriptivo*: transforma las descripciones textuales en salida audible mediante servicios de Text-to-Speech.
+
+- *Generador de Sonidos Ambientales*: sintetiza audio contextual apoyado en modelos autoalojados para representar los contenidos literales de las obras.
+
+- *Catálogo*: gestiona los recursos del sistema y su persistencia en la base de datos.
+
+#v(.2cm)
+Esta separación permite integrar tanto servicios externos especializados como soluciones autoalojadas dentro de una misma arquitectura, manteniendo un flujo desacoplado en el que cada componente cumple una función específica pero coordinada. De este modo, se favorece la escalabilidad, la mantenibilidad y la futura incorporación de nuevos modelos o proveedores tecnológicos.
+
+// Nuestra API Gateway se divide en cuatro servicios independientes para garantizar un adecuado encapsulamiento durante el desarrollo de la plataforma (@arqgeneralsistema). Cada uno de estos servicios corresponde a un módulo débilmente acoplado, asociado a tablas específicas dentro del modelo de datos.
+
+#pagebreak()
 === Generador de Audio Descriptivo
 #v(.2cm)
 
@@ -65,9 +100,9 @@ Este módulo se encarga de la generación de ambientes sonoros que representan l
 #pagebreak()
 === Catálogo de Obras/Imágenes
 #v(.5cm)
-Se elaboró un conjunto de datos que incluye 30 obras artísticas @datasetbasesensoria, conteniendo todo el material requerido para generar el contenido de la plataforma. Este dataset incorpora, además, enlaces a los artículos de Wikipedia asociados a cada obra artística para tener referencias autoritativas en la generación de narraciones historicas sobre la producción de las mismas. Se escoge formato JSON por facilidad de integración nativa en python.
+Se elaboró un conjunto de datos que incluye 30 obras artísticas @datasetbasesensoria, conteniendo todo el material requerido para generar el contenido de la plataforma. Este dataset incorpora, además, enlaces a los artículos de Wikipedia asociados a cada obra artística para tener referencias autoritativas en la generación de narraciones historicas sobre la producción de las mismas. Se escoge formato JSON por facilidad de integración nativa en python. El @dataset-listing muestra la estructura de una entrada del dataset: cada registro contiene los campos de identificación de la obra (`author`, `title`, `date`, `technique`, `period`), una descripción de sus elementos visuales (`elements`), el contexto histórico (`context`), y los enlaces a su artículo de Wikipedia y a la imagen de dominio público (`link`, `im_link`).
 
-#v(.5cm)
+#v(.3cm)
 #figure(
   [```
     [
@@ -86,8 +121,8 @@ Se elaboró un conjunto de datos que incluye 30 obras artísticas @datasetbasese
   ]
   ```],
   caption: "Muestra de Dataset"
-)
-#v(.5cm)
+) <dataset-listing>
+#v(.3cm)
 
 Una vez procesado el conjunto de datos, sus campos son expuestos a través de la *API* mediante endpoints específicos. Los datos textuales se almacenan en una base de datos SQLite, mientras que las imágenes y archivos de audio generados se guardan en el sistema de archivos local del backend.
 

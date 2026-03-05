@@ -9,7 +9,7 @@ En este contexto, la inteligencia artificial emerge como una oportunidad para re
 Este proyecto desarrolla una alternativa de accesibilidad para consumo de contenido orientado a personas con discapacidad visual. En particular se plantea utilizar modelos de lenguaje multimodales, sistemas de síntesis de voz y modelos generativos de audio para una pipeline integrada de producción de piezas de audio que comprendan desde narraciones habladas hasta paisajes sonoros que representen los contenidos de las obras.
 
 #v(.5cm)
-Dado que esta investigación se fundamenta en los principios de accesibilidad universal y diseño inclusivo, el acceso al contenido se implementará a través de un cliente web que considere estándares establecidos en la materia.
+Dado que esta investigación se fundamenta en los principios de accesibilidad universal y diseño inclusivo, el acceso al contenido se implementará a través de un cliente web que considere estándares establecidos en la materia @wcag.
 
 #v(.5cm)
 == Estructura
@@ -41,10 +41,9 @@ Mejorar la experiencia estética y promover la accesibilidad universal a las obr
 + *Producir ambientes sonoros inmersivos* que recreen la atmósfera de las obras con piezas de audio evocativo y coherente con el contenido representado.
 
 + *Diseñar una interfaz centrada en accesibilidad*, que habilite una experiencia de navegación cómoda para personas con discapacidad visual.
-//, incorporando criterios y normativas vigentes en materia de accesibilidad universal y diseño inclusivo.
 
 
 #v(.5cm)
 Los aportes realizados en este proyecto corresponden principalmente a los objetivos *1* y *4*. No obstante, también se hicieron observaciones y contribuciones significativas en los módulos *2* y *3*. Por ello, el presente informe se centrará en el potencial de uso de herramientas de estado del arte para la producción de contenido accesible.
 
-#pagebreak()
+#v(2cm)

@@ -50,18 +50,21 @@ Además, se desarrolla un _frontend_ que aplica principios de accesibilidad, con
 Se decide utilizar Django como framework por su capacidad para agilizar el desarrollo de APIs robustas mediante su sistema de ORM, su arquitectura basada en modelos-vistas-plantillas (MVT) y su ecosistema de paquetes especializados. Además, su soporte integrado para autenticación, manejo de rutas y middleware facilita la implementación de políticas de seguridad y gestión de solicitudes, aspectos críticos para en el futuro robustecer nuestro sistema con flujos de administración de contenido.
 
 #v(.2cm)
-Como se observa en @arqgeneralsistema, la API Gateway orquesta cuatro módulos principales:
+Como se observa en @arqgeneralsistema, la API Gateway orquesta 4 módulos funcionales:
 
-- *Narrador de Contexto*: encargado de interpretar la información proveniente del cliente y estructurar descripciones coherentes mediante modelos de lenguaje multimodales externos.
+- *Narrador de Contexto*: Encargado de crear narraciones sobre el contexto histórico de la producción de las obras. Utiliza modelos de inferencia externos para producción de su contenido.
 
-- *Generador de Audio Descriptivo*: transforma las descripciones textuales en salida audible mediante servicios de Text-to-Speech.
+- *Generador de Audio Descriptivo*: Encargado de transformar representaciones visuales en audios descriptivos de sus contenidos literales. Al igual que el módulo anterior utiliza servicios de inferencia externos para producir su contenido.
 
-- *Generador de Sonidos Ambientales*: sintetiza audio contextual apoyado en modelos autoalojados para representar los contenidos literales de las obras.
+- *Generador de Sonidos Ambientales*: Sintetiza audio contextual apoyado en modelos autoalojados para representar el contenido las obras en un formato interactivo. Se apoya en servicios de inferencia externos para extraer caracteristicas de imagenes.
 
-- *Catálogo*: gestiona los recursos del sistema y su persistencia en la base de datos.
+- *Catálogo*: Gestiona los recursos del sistema y su persistencia en la base de datos.
 
 #v(.2cm)
 Esta separación permite integrar tanto servicios externos especializados como soluciones autoalojadas dentro de una misma arquitectura, manteniendo un flujo desacoplado en el que cada componente cumple una función específica pero coordinada. De este modo, se favorece la escalabilidad, la mantenibilidad y la futura incorporación de nuevos modelos o proveedores tecnológicos.
+
+#v(.5cm)
+A continuación una explicación detallada de cáda módulo:
 
 // Nuestra API Gateway se divide en cuatro servicios independientes para garantizar un adecuado encapsulamiento durante el desarrollo de la plataforma (@arqgeneralsistema). Cada uno de estos servicios corresponde a un módulo débilmente acoplado, asociado a tablas específicas dentro del modelo de datos.
 
@@ -87,7 +90,6 @@ Este módulo genera narraciones auditivas que contextualizan históricamente cad
 
 Este módulo se encarga de la generación de ambientes sonoros que representan los contenidos literales (no abstractos) de sus imagenes de entrada. La heuristica utilizada consiste en:
 - Dividir el espacio en cuadrantes, en nuestro caso 9 (@image-quadrant-cropping), como se puede apreciar en @image-quadrant-segmentation-fig.
-// - Procesar cada cuadrante con LLMs multimodales, obteniendo salidas estructuradas en JSON (@sound-ambient-element-extraction) representando cada elemento detectado.
 - Procesar cada cuadrante mediante modelos de lenguaje multimodales (@sound-ambient-element-extraction). Por razones de operatividad con modelos de lenguaje y facilidad de interpretación se decide procesar la salida de esta parte en formato JSON.
 - Por cada cuadrante generar una mezcla de sonido integrando todos los elementos detectados en cada respectiva sección (@sound-ambient-generation).
 

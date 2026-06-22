@@ -227,8 +227,6 @@ Algunos modelos destacados a la fecha son:
 - *Llama v4 (Meta)* @llama4: Modelo multimodal con pesos liberados capaz de elaborar descripciones semánticas de imágenes por medio de codificación con _MetaCLIP_.
 - *GPT-4o (OpenAI)* @gpt4o *y Gemini 1.5 (Google)* @gemini15: Modelos con integración nativa de texto, imagen y audio. Sin pesos liberados.
 
-- *DeepSeek-OCR (DeepSeek)* @deepseekocr: Modelo multimodal de código abierto especializado en OCR y documentos visuales. Usa compresión óptica 2D para procesar contextos largos con alta precisión y bajo uso de tokens.
-
 #v(.5cm)
 _Llama v4_ @llama4 fue seleccionado para las pruebas de concepto de este trabajo, debido a la combinación de tres factores: disponibilidad de pesos abiertos, soporte nativo para codificación de imágenes mediante MetaCLIP, y acceso a través de proveedores de inferencia en la nube a coste reducido —ventajas que los modelos privativos como GPT-4o o Gemini 1.5 no ofrecen simultáneamente.
 
@@ -256,7 +254,7 @@ En @llamav4-multimodal-encoding se demuestra la funcionalidad de la *codificaci�
 #pagebreak()
 == Modelos de Texto a Voz
 #v(.5cm)
-En los últimos años, arquitecturas basadas en RNNs han ganado relevancia. Estos modelos, generalmente ligeros en cantidad de parámetros, son razonables de autohostear con GPUs de grado consumidor e incluso (en algunos casos) directo en CPU a coste de mayor tiempo de inferencia. Algunos aportes importantes son
+En los últimos años, arquitecturas basadas en RNNs han ganado relevancia. Estos modelos, generalmente ligeros en cantidad de parámetros, se pueden autohostear con GPUs de grado consumidor e incluso (en algunos casos) directo en CPU a coste de mayor tiempo de inferencia. Algunos aportes importantes son
 - *Tacotron 2* @tacotron: Modelo de síntesis de voz basado en una arquitectura encoder–decoder con mecanismo de atención, en el cual una red recurrente genera espectrogramas mel de manera autoregresiva a partir de secuencias de texto o fonemas, utilizando posteriormente un vocoder neural para la generación de la señal de audio (@tacotronarq).
 - *VITS* @vits: Modelo de síntesis de voz end-to-end que combina un encoder de texto, un modelo variacional con normalizing flows y un generador adversarial para producir directamente la forma de onda de audio, incorporando un mecanismo de alineamiento monotónico latente para modelar la correspondencia entre texto y audio.
 - *StyleTTS2* @styletts2: Introduce una arquitectura de síntesis de voz multi-componente que emplea encoders separados para contenido lingüístico y estilo, junto con un generador adversarial, permitiendo modelar variaciones de prosodia y timbre a través de representaciones latentes explícitas durante el proceso de síntesis.

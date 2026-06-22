@@ -11,7 +11,7 @@ Estos nos permiten generar descripciones detalladas de escenas, objetos o compos
 #v(.5cm)
 == Modelos Generativos de Audio
 #v(.2cm)
-Los modelos generativos de audio representan sistemas capaces de crear sonidos y música a partir de prompts de texto. Estos modelos, basados en arquitecturas de aprendizaje profundo, pueden sintetizar desde sonidos de animales y objetos  (como el canto de pájaros o el sonido de una tormenta) hasta composiciones musicales, ajustándose a estilos, géneros o emociones específicas. Su funcionamiento se sustenta en la interpretación de instrucciones textuales o parámetros acústicos, permitiendo generar audio coherente y contextualizado sin necesidad de muestras preexistentes. Un ejemplo relevante es _AudioLDM_ @audioldm, que genera audio ambiental mediante modelos de difusión latente condicionados por descripciones textuales, utilizando embeddings CLAP @clap para mejorar la alineación semántica entre texto y sonido.
+Los modelos generativos de audio representan sistemas capaces de crear sonidos y música a partir de prompts de texto. Estos modelos, basados en arquitecturas de aprendizaje profundo, pueden sintetizar desde sonidos de animales y objetos  (e.g. canto de pajaros, truenos, lluvia) hasta composiciones musicales, ajustándose a estilos, géneros o emociones específicas. Su funcionamiento se sustenta en la interpretación de instrucciones textuales o parámetros acústicos, permitiendo generar audio coherente y contextualizado sin necesidad de muestras preexistentes. Un ejemplo relevante es _AudioLDM_ @audioldm, que genera audio ambiental mediante modelos de difusión latente condicionados por descripciones textuales, utilizando embeddings CLAP @clap para mejorar la alineación semántica entre texto y sonido.
 
 
 #v(.5cm)

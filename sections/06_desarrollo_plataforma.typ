@@ -12,9 +12,9 @@
 
 - *Audio descriptivo*: Se deben generar descripciones textuales objetivas de las obras mediante modelos multimodales, y posteriormente convertir dichas descripciones en audio utilizando tecnología de síntesis de voz, validando su calidad con usuarios.
 
-- *Narración contextual*: El sistema debe integrar un módulo automatizado de extracción, síntesis y generación narrativa que, a partir de fuentes históricas autoritativas, produzca narraciones coherentes y estructuradas sobre el contexto histórico y cultural de cada obra, las cuales deben poder reproducirse mediante síntesis de voz accesible.
+- *Narración contextual*: El sistema debe integrar un módulo automatizado de extracción, síntesis y generación narrativa que, a partir de fuentes históricas autoritativas, produzca narraciones coherentes y estructuradas sobre el contexto histórico y cultural de cada obra, las cuales deben poder reproducirse mediante síntesis de voz.
 
-- *Ambiente sonoro*: La plataforma debe seleccionar, evaluar e integrar modelos generativos de imagen a audio para producir dinámicamente paisajes sonoros asociados a las obras, mediante servicios backend expuestos a un frontend interactivo que permita su exploración, asegurando validación de la experiencia con usuarios.
+- *Ambiente sonoro*: La plataforma debe seleccionar, evaluar e integrar modelos generativos de imagen a audio para producir dinámicamente paisajes sonoros asociados a las obras.
 
 - *Interfaz accesible*: El cliente web debe diseñarse e implementarse conforme a estándares de accesibilidad @wcag, considerando revisión normativa, análisis de buenas prácticas, prototipado accesible y validación con usuarios, garantizando compatibilidad con lectores de pantalla, navegación por teclado y cumplimiento de criterios básicos de accesibilidad.
 
@@ -47,7 +47,7 @@ Además, se desarrolla un _frontend_ que aplica principios de accesibilidad, con
 
 #v(.4cm)
 
-Se decide utilizar Django como framework por su capacidad para agilizar el desarrollo de APIs robustas mediante su sistema de ORM, su arquitectura basada en modelos-vistas-plantillas (MVT) y su ecosistema de paquetes especializados. Además, su soporte integrado para autenticación, manejo de rutas y middleware facilita la implementación de políticas de seguridad y gestión de solicitudes, aspectos críticos para en el futuro robustecer nuestro sistema con flujos de administración de contenido.
+Se decide utilizar Django como framework por su capacidad para agilizar el desarrollo de APIs robustas mediante su sistema de ORM, su integración directa de utilidades de desarrollo de APIs REST y su ecosistema de paquetes especializados. Además, su soporte integrado para autenticación, manejo de rutas y middleware facilita la implementación de políticas de seguridad y gestión de solicitudes, aspectos críticos para en el futuro robustecer nuestro sistema con flujos de administración de contenido.
 
 #v(.2cm)
 Como se observa en @arqgeneralsistema, la API Gateway orquesta 4 módulos funcionales:
@@ -88,7 +88,7 @@ Este módulo genera narraciones auditivas que contextualizan históricamente cad
 === Generador de Sonidos Ambientales
 #v(.2cm)
 
-Este módulo se encarga de la generación de ambientes sonoros que representan los contenidos literales (no abstractos) de sus imagenes de entrada. La heuristica utilizada consiste en:
+Este módulo se encarga de la generación de ambientes sonoros que representan los contenidos literales (no abstractos) de sus imagenes de entrada. La heurística utilizada consiste en:
 - Dividir el espacio en cuadrantes, en nuestro caso 9 (@image-quadrant-cropping), como se puede apreciar en @image-quadrant-segmentation-fig.
 - Procesar cada cuadrante mediante modelos de lenguaje multimodales (@sound-ambient-element-extraction). Por razones de operatividad con modelos de lenguaje y facilidad de interpretación se decide procesar la salida de esta parte en formato JSON.
 - Por cada cuadrante generar una mezcla de sonido integrando todos los elementos detectados en cada respectiva sección (@sound-ambient-generation).

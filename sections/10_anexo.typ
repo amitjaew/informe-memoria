@@ -430,7 +430,7 @@ Utiliza el módulo descrito en @information-extraction-script para la extracció
 #pagebreak()
 == Generación de Sonidos Ambientales
 #v(.5cm)
-La eurística utilizada para la generación de sonidos ambientales consiste en 3 pasos:
+La heurística utilizada para la generación de sonidos ambientales consiste en 3 pasos:
 
 1. *Segmentación de la imagen* (@image-quadrant-cropping): La obra se divide en cuadrantes mediante un algoritmo de particionamiento espacial. Cada cuadrante se utiliza posteriormente como entrada para los pasos posteriores.
 
